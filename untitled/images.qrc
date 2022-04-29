@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/back">
+        <file>images/1.png</file>
+        <file>images/2.png</file>
+        <file>images/3.png</file>
+        <file>images/4.png</file>
+        <file>images/android.PNG</file>
+        <file>images/m_platlogo.PNG</file>
+        <file>images/mm_eyes.PNG</file>
+        <file>images/mm_eyes2.PNG</file>
+        <file>images/mm_mouth1.PNG</file>
+        <file>images/mm_mouth2.PNG</file>
+    </qresource>
+</RCC>
