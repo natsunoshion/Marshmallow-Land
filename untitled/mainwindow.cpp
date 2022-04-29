@@ -222,7 +222,7 @@ void MainWindow::drawScore()
     painter.fillPath(path, color);
     painter.drawPath(path);
 
-    QFont font( "Microsoft YaHei", 15, 70);
+    QFont font( "Microsoft YaHei", 13, 70);
     painter.setFont(font);
 
     painter.setPen(Qt::white);
