@@ -29,7 +29,7 @@ void MainWindow::init()
     //初始化背景
     setAutoFillBackground(true);
     QPalette pal;
-    QPixmap pix(":/back/images/2.png");
+    QPixmap pix(":/back/images/1.png");
     pal.setBrush(QPalette::Background,QBrush(pix));
     setPalette(pal);
     //时间
@@ -41,18 +41,37 @@ void MainWindow::init()
     h1=GlobalUtils::getRandomNum(seed_x,608-200-220);
     //保持update
     connect(timer,SIGNAL(timeout()),this,SLOT(loopPaint()));
-
+    //检测画面方向，每死一次改变一次方向，防止玩家视觉疲劳
+    isFlipped=!isFlipped;
     initSpeed();
 }
-//鼠标点击一次刷新初速度
-void MainWindow::mousePressEvent(QMouseEvent * )
+
+void MainWindow::drawSun()
 {
-     androidStatus=AndroidStatus::UP;
-     initSpeed();
-     if(gameStatus==STOPING)
-         init();
-     imageAngle=45;
-     a=0;
+    QPainter painter(this);
+    //翻转画面
+    if(isFlipped)
+    {
+        //线性代数知识，旋转矩阵
+        painter.setViewport(342, 0, -342, 608);
+    }
+    QPixmap sun(":/back/images/sun.png");
+    painter.drawPixmap(50,400,sun);
+    //重置画面
+    painter.setViewport(0, 0, 342, 608);
+}
+//鼠标点击一次刷新初速度
+void MainWindow::mousePressEvent(QMouseEvent *)
+{
+    //记录鼠标按住的状态
+    isPressed=true;
+    update();
+}
+
+void MainWindow::mouseReleaseEvent(QMouseEvent *)
+{
+    isPressed=false;
+    update();
 }
 //绘制事件
 void MainWindow::paintEvent(QPaintEvent *)
@@ -61,21 +80,40 @@ void MainWindow::paintEvent(QPaintEvent *)
     QPixmap pixmap=QPixmap(":/back/images/1.PNG").scaled(this->size());
     QPainter painterBackground(this);
     painterBackground.drawPixmap(this->rect(),pixmap);
-    //画图
+    //画图，先画的显示在底层
+    drawSun();
     drawAndroid();
     drawMm1();
     drawMm2();
+    //屏幕正中间的分数图标
     drawScore();
 }
 //绘制事件中的绘制安卓小人
 void MainWindow::drawAndroid()
 {
+    //鼠标按住时候的一系列事件
+    if(isPressed)
+    {
+        androidStatus=AndroidStatus::UP;
+        initSpeed();
+        //如果游戏结束，重置游戏，可以改进
+        if(gameStatus==STOPING)
+            init();
+        //旋转角度重置为45度
+        imageAngle=45;
+        //重置角加速度
+        a=0;
+    }
+    //绘制事件
     QPainter painter(this);
-    QPixmap android(":/back/images/android.PNG");
+    if(isFlipped)
+    {
+        painter.setViewport(342, 0, -342, 608);
+    }
+    QPixmap android(":/back/images/androidBlue.png");
     android=android.scaled(42,42);
     a+=0.1;
     imageAngle+=a;
-
 
     if(imageAngle>180)
         imageAngle=180;
@@ -107,11 +145,17 @@ void MainWindow::drawAndroid()
     //不能出天花板
     if(androidY<0)
         androidY=0;
+    //重置
+    painter.setViewport(0, 0, 342, 608);
 }
 //第一个循环棉花糖
 void MainWindow::drawMm1()
 {
     QPainter painter(this);
+    if(isFlipped)
+    {
+        painter.setViewport(342, 0, -342, 608);
+    }
     //上面的棉花糖
     QPixmap m1(":/back/images/m_platlogo.PNG");
     QMatrix matrix;
@@ -127,9 +171,9 @@ void MainWindow::drawMm1()
         mmX1-=0.8;
     //draw函数绘制杆子
     QPen pen;
-    pen.setColor(QColor(255,255,255));
+    pen.setColor(QColor(182,163,157));
     painter.setPen(pen);
-    QBrush brush(QColor(255,255,255),Qt::SolidPattern);
+    QBrush brush(QColor(182,163,157),Qt::SolidPattern);
     painter.setBrush(brush);
     painter.drawRect((100-6)/2+mmX1,0,6,h1);
     painter.drawRect((100-6)/2+mmX1,h1+220+100,6,608-(h1+220-100));
@@ -150,12 +194,16 @@ void MainWindow::drawMm1()
         score++;
         isScoreMm1=true;
     }
+    painter.setViewport(0, 0, 342, 608);
 }
-
 //第二个棉花糖
 void MainWindow::drawMm2()
 {
     QPainter painter(this);
+    if(isFlipped)
+    {
+        painter.setViewport(342, 0, -342, 608);
+    }
     QPixmap m1(":/back/images/m_platlogo.PNG");
     QMatrix matrix;
     matrix.rotate(180);
@@ -178,9 +226,9 @@ void MainWindow::drawMm2()
     }
     //draw函数绘制杆子
     QPen pen;
-    pen.setColor(QColor(255,255,255));
+    pen.setColor(QColor(182,163,157));
     painter.setPen(pen);
-    QBrush brush(QColor(255,255,255),Qt::SolidPattern);
+    QBrush brush(QColor(182,163,157),Qt::SolidPattern);
     painter.setBrush(brush);
     painter.drawRect((100-6)/2+mmX2,0,6,h2);
     painter.drawRect((100-6)/2+mmX2,h2+220+100,6,608-(h2+220-100));
@@ -193,6 +241,7 @@ void MainWindow::drawMm2()
         score++;
         isScoreMm2=true;
     }
+    painter.setViewport(0, 0, 342, 608);
 }
 
 void MainWindow::startGame()
@@ -228,17 +277,17 @@ void MainWindow::drawScore()
     painter.setPen(Qt::white);
     painter.drawText(QRectF((342-32)/2, 16, 32, 36),Qt::AlignCenter,QString::number(score));
 }
-
+//保持持续的paint事件
 void MainWindow::loopPaint()
 {
     update();
 }
-
+//向上的初速度
 void MainWindow::initSpeed()
  {
-     androidUpSpeed=7.5;
+     androidUpSpeed=6;
  }
-
+//自己写碰撞检测
 bool MainWindow::isCrush()
 {
     if(androidY>608-42)
@@ -251,7 +300,7 @@ bool MainWindow::isCrush()
     //第二对
     if(androidX+42>mmX2+10 && androidX<mmX2+90 && androidY+42>h2+20 && androidY<h2+70)
         return true;
-    if(androidX+42>mmX2+10 && androidX<mmX2+90 && androidY+42>h2+220+30 && androidY<h2+2250+70)
+    if(androidX+42>mmX2+10 && androidX<mmX2+90 && androidY+42>h2+220+30 && androidY<h2+220+70)
         return true;
     //第一对的杆子相碰
     if(androidX+42>mmX1+(100-10)/2 && androidX<mmX1+(100+10)/2 && androidY<h1)

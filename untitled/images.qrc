@@ -10,5 +10,10 @@
         <file>images/mm_eyes2.PNG</file>
         <file>images/mm_mouth1.PNG</file>
         <file>images/mm_mouth2.PNG</file>
+        <file>images/sun.png</file>
+        <file>images/androidBlue.png</file>
+        <file>images/mountain1.png</file>
+        <file>images/mountain2.png</file>
+        <file>images/mountain3.png</file>
     </qresource>
 </RCC>
