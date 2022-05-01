@@ -35,5 +35,5 @@ void mountain::setWidth(int w)
 
 void mountain::draw(QPainter &painter)
 {
-    painter.drawPixmap(x,608-width,moun);
+    painter.drawPixmap(x,780-width,moun);
 }

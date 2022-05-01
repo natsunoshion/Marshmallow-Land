@@ -12,7 +12,7 @@ public:
     QPixmap moun;
     //水平位置
     int x;
-    int width=100;
+    int width;
 
     void setMoun(int m);
     void setX(int n);

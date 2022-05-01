@@ -5,7 +5,6 @@
         <file>images/3.png</file>
         <file>images/4.png</file>
         <file>images/android.PNG</file>
-        <file>images/m_platlogo.PNG</file>
         <file>images/mm_eyes.PNG</file>
         <file>images/mm_eyes2.PNG</file>
         <file>images/mm_mouth1.PNG</file>
@@ -15,5 +14,8 @@
         <file>images/mountain1.png</file>
         <file>images/mountain2.png</file>
         <file>images/mountain3.png</file>
+        <file>images/mm1.png</file>
+        <file>images/mm2.png</file>
+        <file>images/cloud.png</file>
     </qresource>
 </RCC>

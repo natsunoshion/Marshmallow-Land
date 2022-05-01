@@ -4,7 +4,7 @@ GlobalUtils::GlobalUtils(){
 
 }
 
-//获取随机数 0 ~ limit之间
+//高质量随机数获取，通过QRandomGenerator实现
 int GlobalUtils::getRandomNum(int limit)
 {
     return QRandomGenerator::global()->bounded(limit);

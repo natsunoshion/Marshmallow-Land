@@ -8,6 +8,7 @@
 #include <QKeyEvent>
 #include "globalutils.h"
 #include "mountain.h"
+#include "cloud.h"
 
 class MainWindow : public QMainWindow
 {
@@ -55,11 +56,23 @@ public:
     int x[100];
     int w[100];
     int mountainSpeed[100];
-    //太阳坐标
+    //太阳
     int sunX,sunY;
     //主题随机功能，尚未完成
     int themeColor;
     int themeItem;
+    //云
+    int cloudNumber=0;
+    cloud cloudInstance[100];
+    int xCloud[100];
+    int yCloud[100];
+    int widthCloud[100];
+    int cloudSpeed[100];
+    //棉花糖
+    QPixmap m1Group1,m2Group1,m1Group2,m2Group2;
+    //初始化棉花糖的触角朝向
+    bool isInitMm11=true,isInitMm12=true,isInitMm21=true,isInitMm22=true;
+    int test11,test12,test21,test22;
 
     //函数部分开始
     //鼠标按下
@@ -73,10 +86,16 @@ public:
     //绘制里的事件，分别paint
     //山
     void drawMountain();
+    //云
+    void drawCloud();
+    //太阳
     void drawSun();
+    //棉花糖
     void drawMm1();
     void drawMm2();
+    //安卓
     void drawAndroid();
+    //记分板
     void drawScore();
     //初速度
     void initSpeed();
