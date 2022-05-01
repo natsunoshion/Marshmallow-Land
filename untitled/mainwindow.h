@@ -1,12 +1,13 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "globalutils.h"
 #include <QMainWindow>
 #include <QPushButton>
 #include <QTimer>
 #include <QLabel>
 #include <QKeyEvent>
+#include "globalutils.h"
+#include "mountain.h"
 
 class MainWindow : public QMainWindow
 {
@@ -46,6 +47,20 @@ public:
     //鼠标按键检测，默认没按
     bool isPressed=false;
     bool isFlipped=true;
+    //山的数量，默认为0
+    int mountainNumber=0;
+    //山对象数组
+    mountain mountainInstance[100];
+    int mountainType[100];
+    int x[100];
+    int w[100];
+    int mountainSpeed[100];
+    //太阳坐标
+    int sunX,sunY;
+    //主题随机功能，尚未完成
+    int themeColor;
+    int themeItem;
+
     //函数部分开始
     //鼠标按下
     void mousePressEvent(QMouseEvent *event);
@@ -56,6 +71,8 @@ public:
     //初始化
     void init();
     //绘制里的事件，分别paint
+    //山
+    void drawMountain();
     void drawSun();
     void drawMm1();
     void drawMm2();

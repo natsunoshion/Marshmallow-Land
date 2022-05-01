@@ -16,7 +16,6 @@ MainWindow::~MainWindow()
 //初始化函数内容
 void MainWindow::init()
 {
-    h2=100;
     //初始化窗口大小
     this->setFixedSize(342,608);
     //初始化坐标以及相关数据
@@ -37,13 +36,45 @@ void MainWindow::init()
     //开始游戏
     startGame();
     //第一组棉花糖的随机数
-    uint seed_x=static_cast<uint>(clock());
-    h1=GlobalUtils::getRandomNum(seed_x,608-200-220);
+    h1=GlobalUtils::getRandomNum(608-200-220);
+    h2=GlobalUtils::getRandomNum(608-200-220);
+
+    sunX=GlobalUtils::getRandomNum(20,322);
+    sunY=GlobalUtils::getRandomNum(20,588);
+    //山的数量，随机产生，上限为6
+    mountainNumber=GlobalUtils::getRandomNum(6)+1;
+    for(int i=1;i<=mountainNumber;i++)
+    {
+        mountainType[i]=GlobalUtils::getRandomNum(3);
+        mountainSpeed[i]=GlobalUtils::getRandomNum((double)3.1);
+        x[i]=GlobalUtils::getRandomNum(400);
+        w[i]=GlobalUtils::getRandomNum(100,250);
+        //初始化图像、宽度、横坐标，注意一定是先初始化宽度
+        mountainInstance[i].setWidth(w[i]);
+        mountainInstance[i].setMoun(mountainType[i]);
+        mountainInstance[i].setX(x[i]);
+    }
+
     //保持update
     connect(timer,SIGNAL(timeout()),this,SLOT(loopPaint()));
     //检测画面方向，每死一次改变一次方向，防止玩家视觉疲劳
     isFlipped=!isFlipped;
     initSpeed();
+}
+
+void MainWindow::drawMountain()
+{
+    QPainter painter(this);
+    if(isFlipped)
+    {
+        painter.setViewport(342, 0, -342, 608);
+    }
+    for(int i=1;i<=mountainNumber;i++)
+    {
+        mountainInstance[i].draw(painter);
+        mountainInstance[i].x-=mountainSpeed[i];
+    }
+    painter.setViewport(0, 0, 342, 608);
 }
 
 void MainWindow::drawSun()
@@ -56,7 +87,7 @@ void MainWindow::drawSun()
         painter.setViewport(342, 0, -342, 608);
     }
     QPixmap sun(":/back/images/sun.png");
-    painter.drawPixmap(50,400,sun);
+    painter.drawPixmap(sunX,sunY,sun);
     //重置画面
     painter.setViewport(0, 0, 342, 608);
 }
@@ -82,6 +113,7 @@ void MainWindow::paintEvent(QPaintEvent *)
     painterBackground.drawPixmap(this->rect(),pixmap);
     //画图，先画的显示在底层
     drawSun();
+    drawMountain();
     drawAndroid();
     drawMm1();
     drawMm2();
@@ -183,8 +215,7 @@ void MainWindow::drawMm1()
 
     if(mmX2<-100)
     {
-        uint seed_x=static_cast<uint>(clock());
-        h2=GlobalUtils::getRandomNum(seed_x,608-200-220); //获取随机数
+        h2=GlobalUtils::getRandomNum(608-200-220); //获取随机数
         mmX2=440;
         isScoreMm2=false;
     }
@@ -219,8 +250,7 @@ void MainWindow::drawMm2()
     //出屏之后重置
     if(mmX1<-100)
     {
-        uint seed_x=static_cast<uint>(clock());
-        h1=GlobalUtils::getRandomNum(seed_x,608-200-220); //获取随机数
+        h1=GlobalUtils::getRandomNum(608-200-220); //获取随机数
         mmX1=440;
         isScoreMm1=false;
     }
