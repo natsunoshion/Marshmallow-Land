@@ -1,9 +1,5 @@
 <RCC>
     <qresource prefix="/back">
-        <file>images/1.png</file>
-        <file>images/2.png</file>
-        <file>images/3.png</file>
-        <file>images/4.png</file>
         <file>images/android.PNG</file>
         <file>images/mm_eyes.PNG</file>
         <file>images/mm_eyes2.PNG</file>

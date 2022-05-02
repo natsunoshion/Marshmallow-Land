@@ -17,6 +17,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    enum mScene{DAY, NIGHT, TWILIGHT, SUNSET};
     //安卓横纵坐标
     double androidX;
     double androidY;
@@ -53,9 +54,9 @@ public:
     //山对象数组
     mountain mountainInstance[100];
     int mountainType[100];
-    int x[100];
+    double x[100];
     int w[100];
-    int mountainSpeed[100];
+    double mountainSpeed[100];
     //太阳
     int sunX,sunY;
     //主题随机功能，尚未完成
@@ -64,10 +65,10 @@ public:
     //云
     int cloudNumber=0;
     cloud cloudInstance[100];
-    int xCloud[100];
+    double xCloud[100];
     int yCloud[100];
     int widthCloud[100];
-    int cloudSpeed[100];
+    double cloudSpeed[100];
     //棉花糖
     QPixmap m1Group1,m2Group1,m1Group2,m2Group2;
     //初始化棉花糖的触角朝向
@@ -81,6 +82,8 @@ public:
     void mouseReleaseEvent(QMouseEvent *event);
     //绘制事件
     void paintEvent(QPaintEvent *event);
+
+    void drawBack();
     //初始化
     void init();
     //绘制里的事件，分别paint

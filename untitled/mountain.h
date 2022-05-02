@@ -11,7 +11,7 @@ public:
     mountain();
     QPixmap moun;
     //水平位置
-    int x;
+    double x;
     int width;
 
     void setMoun(int m);

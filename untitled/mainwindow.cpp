@@ -26,12 +26,6 @@ void MainWindow::init()
     score=0;
     isScoreMm1=isScoreMm2=false;
     isInitMm11=isInitMm12=isInitMm21=isInitMm22=true;
-    //初始化背景
-    setAutoFillBackground(true);
-    QPalette pal;
-    QPixmap pix(":/back/images/3.png");
-    pal.setBrush(QPalette::Background,QBrush(pix));
-    setPalette(pal);
     //时间
     timer=new QTimer(this);
     //开始游戏
@@ -138,11 +132,8 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *)
 //绘制事件
 void MainWindow::paintEvent(QPaintEvent *)
 {
-    //背景图片
-    QPixmap pixmap=QPixmap(":/back/images/1.PNG").scaled(this->size());
-    QPainter painterBackground(this);
-    painterBackground.drawPixmap(this->rect(),pixmap);
     //画图，先画的显示在底层
+    drawBack();
     drawSun();
     drawMountain();
     drawCloud();
@@ -151,6 +142,18 @@ void MainWindow::paintEvent(QPaintEvent *)
     drawMm2();
     //屏幕正中间的分数图标
     drawScore();
+}
+//直接暴力用draw函数画渐变背景
+void MainWindow::drawBack()
+{
+    QPainter painter(this);
+    QLinearGradient linearGrad(QPointF(180, 0), QPointF(180, 780));
+    linearGrad.setColorAt(0, QColor(33,64,128));
+    linearGrad.setColorAt(1, QColor(161,128,33));
+    QBrush brush(linearGrad);
+    painter.setBrush(brush);
+    //直接画矩形填充渐变背景
+    painter.drawRect(-1,-1,361,781);
 }
 //绘制事件中的绘制安卓小人
 void MainWindow::drawAndroid()
@@ -265,13 +268,16 @@ void MainWindow::drawMm1()
     if(gameStatus==RUNNING)
         mmX1-=0.8;
     //draw函数绘制杆子
-    QPen pen;
-    pen.setColor(QColor(175,152,146));
-    painter.setPen(pen);
-    QBrush brush(QColor(175,152,146),Qt::SolidPattern);
+    //设置透明边框
+    painter.setPen(Qt::transparent);
+    //构造线性渐变填充杆子
+    QLinearGradient linearGradient(QPointF((90-8)/2+mmX1, 0), QPointF((90+8)/2+mmX1, 0));
+    linearGradient.setColorAt(0, QColor(179,166,175));
+    linearGradient.setColorAt(1, QColor(158,135,127));
+    QBrush brush(linearGradient);
     painter.setBrush(brush);
-    painter.drawRect((90-6)/2+mmX1,0,6,h1);
-    painter.drawRect((90-6)/2+mmX1,h1+220+90,6,780-(h1+220-90));
+    painter.drawRect((90-8)/2+mmX1,0,8,h1);
+    painter.drawRect((90-8)/2+mmX1,h1+220+90,8,780-(h1+220-90));
 
     painter.drawPixmap(mmX1,h1,m1Group1);
     painter.drawPixmap(mmX1,h1+220,m2Group1);
@@ -350,13 +356,17 @@ void MainWindow::drawMm2()
     }
 
     //draw函数绘制杆子
-    QPen pen;
-    pen.setColor(QColor(175,152,146));
-    painter.setPen(pen);
-    QBrush brush(QColor(175,152,146),Qt::SolidPattern);
+    //设置透明边框
+    painter.setPen(Qt::transparent);
+    //构造线性渐变填充杆子
+    QLinearGradient linearGradient(QPointF((90-8)/2+mmX2, 0), QPointF((90+8)/2+mmX2, 0));
+    linearGradient.setColorAt(0, QColor(179,166,175));
+    linearGradient.setColorAt(1, QColor(158,135,127));
+    QBrush brush(linearGradient);
     painter.setBrush(brush);
-    painter.drawRect((90-6)/2+mmX2,0,6,h2);
-    painter.drawRect((90-6)/2+mmX2,h2+220+90,6,780-(h2+220-90));
+
+    painter.drawRect((90-8)/2+mmX2,0,8,h2);
+    painter.drawRect((90-8)/2+mmX2,h2+220+90,8,780-(h2+220-90));
     //绘制棉花糖
     painter.drawPixmap(mmX2,h2,m1Group2);
     painter.drawPixmap(mmX2,h2+220,m2Group2);
