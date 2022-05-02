@@ -16,6 +16,23 @@ MainWindow::~MainWindow()
 //初始化函数内容
 void MainWindow::init()
 {
+    //生成主题
+    //时间
+    mTimeOfDay=GlobalUtils::getRandomNum(4);
+    //场景
+    mScene=GlobalUtils::getRandomNum(3);
+    isMoon=GlobalUtils::getRandomNum(2);
+    isSun=GlobalUtils::getRandomNum(2);
+    isStar=GlobalUtils::getRandomNum(2);
+    //白天没有星星，但是可以有月亮（咦？
+    if(mTimeOfDay==DAY)
+        isStar=false;
+    //晚上没有太阳
+    if(mTimeOfDay==TWILIGHT || mTimeOfDay==NIGHT)
+        isSun=false;
+    //太阳和月亮不同时出现
+    if(isSun)
+        isMoon=false;
     //初始化窗口大小
     this->setFixedSize(360,780);
     //初始化坐标以及相关数据
@@ -33,9 +50,17 @@ void MainWindow::init()
     //第一组棉花糖的随机数
     h1=GlobalUtils::getRandomNum(780-200-220);
     h2=GlobalUtils::getRandomNum(780-200-220);
-    //初始化太阳
-    sunX=GlobalUtils::getRandomNum(20,340);
-    sunY=GlobalUtils::getRandomNum(20,760);
+    //初始星星坐标
+    //星星一般不会太少
+    starNumber=GlobalUtils::getRandomNum(3,10);
+    for(int i=1;i<=starNumber;i++)
+    {
+        starX[i]=GlobalUtils::getRandomNum(360);
+        starY[i]=GlobalUtils::getRandomNum(780);
+    }
+    //初始化太阳/月亮坐标
+    sunOrMoonX=GlobalUtils::getRandomNum(20,340);
+    sunOrMoonY=GlobalUtils::getRandomNum(20,760);
     //初始化山
     //山的数量，随机产生，上限为6
     mountainNumber=GlobalUtils::getRandomNum(6)+1;
@@ -102,17 +127,51 @@ void MainWindow::drawCloud()
     painter.setViewport(0, 0, 360, 780);
 }
 
+void MainWindow::drawStar()
+{
+    QPainter painter(this);
+    if(isFlipped)
+    {
+        painter.setViewport(360, 0, -360, 780);
+    }
+    for(int i=1;i<=starNumber;i++)
+    {
+        QPixmap star(":/back/images/star.png");
+        star=star.scaled(5,5);
+        painter.drawPixmap(starX[i],starY[i],star);
+    }
+    painter.setViewport(0, 0, 360, 780);
+}
+
 void MainWindow::drawSun()
 {
     QPainter painter(this);
     //翻转画面
     if(isFlipped)
     {
-        //线性代数知识，旋转矩阵
+        //线性代数知识，翻转矩阵
         painter.setViewport(360, 0, -360, 780);
     }
     QPixmap sun(":/back/images/sun.png");
-    painter.drawPixmap(sunX,sunY,sun);
+    painter.drawPixmap(sunOrMoonX,sunOrMoonY,sun);
+    //重置画面
+    painter.setViewport(0, 0, 360, 780);
+}
+
+void MainWindow::drawMoon()
+{
+    QPainter painter(this);
+    //如果是在白天或者日落，减小月亮的透明度
+    if(mTimeOfDay==DAY || mTimeOfDay==SUNSET)
+        painter.setOpacity(0.75);
+    //翻转画面
+    if(isFlipped)
+    {
+        //线性代数知识，翻转矩阵
+        painter.setViewport(360, 0, -360, 780);
+    }
+    QPixmap moon(":/back/images/moon.png");
+    painter.drawPixmap(sunOrMoonX,sunOrMoonY,moon);
     //重置画面
     painter.setViewport(0, 0, 360, 780);
 }
@@ -134,7 +193,15 @@ void MainWindow::paintEvent(QPaintEvent *)
 {
     //画图，先画的显示在底层
     drawBack();
-    drawSun();
+    //画不画太阳
+    if(isSun)
+        drawSun();
+    //画不画月亮
+    if(isMoon)
+        drawMoon();
+    //画！
+    if(isStar)
+        drawStar();
     drawMountain();
     drawCloud();
     drawAndroid();
@@ -147,13 +214,48 @@ void MainWindow::paintEvent(QPaintEvent *)
 void MainWindow::drawBack()
 {
     QPainter painter(this);
-    QLinearGradient linearGrad(QPointF(180, 0), QPointF(180, 780));
-    linearGrad.setColorAt(0, QColor(33,64,128));
-    linearGrad.setColorAt(1, QColor(161,128,33));
-    QBrush brush(linearGrad);
-    painter.setBrush(brush);
-    //直接画矩形填充渐变背景
-    painter.drawRect(-1,-1,361,781);
+    //白天
+    if(mTimeOfDay==DAY)
+    {
+        QLinearGradient linearGrad(QPointF(180, 0), QPointF(180, 780));
+        linearGrad.setColorAt(0, QColor(160,161,254));
+        linearGrad.setColorAt(1, QColor(192,192,254));
+        QBrush brush(linearGrad);
+        painter.setBrush(brush);
+        //直接画矩形填充渐变背景
+        painter.drawRect(-1,-1,361,781);
+    }
+    if(mTimeOfDay==SUNSET)
+    {
+        QLinearGradient linearGrad(QPointF(180, 0), QPointF(180, 780));
+        linearGrad.setColorAt(0, QColor(33,64,128));
+        linearGrad.setColorAt(1, QColor(161,128,33));
+        QBrush brush(linearGrad);
+        painter.setBrush(brush);
+        //直接画矩形填充渐变背景
+        painter.drawRect(-1,-1,361,781);
+    }
+    if(mTimeOfDay==TWILIGHT)
+    {
+        QLinearGradient linearGrad(QPointF(180, 0), QPointF(180, 780));
+        linearGrad.setColorAt(0, QColor(0,0,0));
+        linearGrad.setColorAt(1, QColor(1,0,16));
+        QBrush brush(linearGrad);
+        painter.setBrush(brush);
+        //直接画矩形填充渐变背景
+        painter.drawRect(-1,-1,361,781);
+    }
+    if(mTimeOfDay==NIGHT)
+    {
+        QLinearGradient linearGrad(QPointF(180, 0), QPointF(180, 780));
+        linearGrad.setColorAt(0, QColor(1,0,16));
+        linearGrad.setColorAt(1, QColor(0,0,62));
+        QBrush brush(linearGrad);
+        painter.setBrush(brush);
+        //直接画矩形填充渐变背景
+        painter.drawRect(-1,-1,361,781);
+    }
+
 }
 //绘制事件中的绘制安卓小人
 void MainWindow::drawAndroid()

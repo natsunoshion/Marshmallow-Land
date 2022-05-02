@@ -13,5 +13,7 @@
         <file>images/mm1.png</file>
         <file>images/mm2.png</file>
         <file>images/cloud.png</file>
+        <file>images/moon.png</file>
+        <file>images/star.png</file>
     </qresource>
 </RCC>
