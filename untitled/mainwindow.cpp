@@ -37,7 +37,7 @@ void MainWindow::init()
     this->setFixedSize(360,780);
     //初始化坐标以及相关数据
     mmX1=360;
-    mmX2=360+270;
+    mmX2=360+301;
     androidX=0.5*(this->width());
     androidY=0.5*(780-42);
     score=0;
@@ -336,7 +336,7 @@ void MainWindow::drawMm1()
             QMatrix matrix;
             matrix.rotate(180);
             m1Group1=m1Group1.transformed(matrix);
-            m1Group1=m1Group1.scaled(90,107);
+            m1Group1=m1Group1.scaled(88,104);
         }
         if(test11==1)
         {
@@ -344,7 +344,7 @@ void MainWindow::drawMm1()
             QMatrix matrix;
             matrix.rotate(180);
             m1Group1=m1Group1.transformed(matrix);
-            m1Group1=m1Group1.scaled(90,107);
+            m1Group1=m1Group1.scaled(88,98);
         }
         isInitMm11=false;
     }
@@ -358,12 +358,12 @@ void MainWindow::drawMm1()
         if(test12==0)
         {
             m2Group1.load(":/back/images/mm1.png");
-            m2Group1=m2Group1.scaled(90,107);
+            m2Group1=m2Group1.scaled(88,104);
         }
         if(test12==1)
         {
             m2Group1.load(":/back/images/mm2.png");
-            m2Group1=m2Group1.scaled(90,107);
+            m2Group1=m2Group1.scaled(88,98);
         }
         isInitMm12=false;
     }
@@ -373,26 +373,26 @@ void MainWindow::drawMm1()
     //设置透明边框
     painter.setPen(Qt::transparent);
     //构造线性渐变填充杆子
-    QLinearGradient linearGradient(QPointF((90-8)/2+mmX1, 0), QPointF((90+8)/2+mmX1, 0));
+    QLinearGradient linearGradient(QPointF((88-8)/2+mmX1, 0), QPointF((88+8)/2+mmX1, 0));
     linearGradient.setColorAt(0, QColor(179,166,175));
     linearGradient.setColorAt(1, QColor(158,135,127));
     QBrush brush(linearGradient);
     painter.setBrush(brush);
-    painter.drawRect((90-8)/2+mmX1,0,8,h1);
-    painter.drawRect((90-8)/2+mmX1,h1+220+90,8,780-(h1+220-90));
+    painter.drawRect((88-8)/2+mmX1,0,8,h1);
+    painter.drawRect((88-8)/2+mmX1,h1+250+88,8,780-(h1+250-88));
 
     painter.drawPixmap(mmX1,h1,m1Group1);
-    painter.drawPixmap(mmX1,h1+220,m2Group1);
+    painter.drawPixmap(mmX1,h1+250,m2Group1);
 
-    if(mmX2<-90)
+    if(mmX2<-88)
     {
-        h2=GlobalUtils::getRandomNum(780-200-220); //获取随机数
-        mmX2=440;
+        h2=GlobalUtils::getRandomNum(780-200-250); //获取随机数
+        mmX2=mmX1+301;
         isScoreMm2=false;
         isInitMm21=isInitMm22=true;
     }
 
-    if(mmX1+90<androidX+42 && !isScoreMm1)
+    if(mmX1+88<androidX+42 && !isScoreMm1)
     {
         score++;
         isScoreMm1=true;
@@ -416,7 +416,7 @@ void MainWindow::drawMm2()
             QMatrix matrix;
             matrix.rotate(180);
             m1Group2=m1Group2.transformed(matrix);
-            m1Group2=m1Group2.scaled(90,107);
+            m1Group2=m1Group2.scaled(88,104);
         }
         if(test21==1)
         {
@@ -424,7 +424,7 @@ void MainWindow::drawMm2()
             QMatrix matrix;
             matrix.rotate(180);
             m1Group2=m1Group2.transformed(matrix);
-            m1Group2=m1Group2.scaled(90,107);
+            m1Group2=m1Group2.scaled(88,98);
         }
         isInitMm21=false;
     }
@@ -437,22 +437,22 @@ void MainWindow::drawMm2()
         if(test22==0)
         {
             m2Group2.load(":/back/images/mm1.png");
-            m2Group2=m2Group2.scaled(90,107);
+            m2Group2=m2Group2.scaled(88,104);
         }
         if(test22==1)
         {
             m2Group2.load(":/back/images/mm2.png");
-            m2Group2=m2Group2.scaled(90,107);
+            m2Group2=m2Group2.scaled(88,98);
         }
         isInitMm22=false;
     }
     if(gameStatus==RUNNING)
         mmX2-=0.8;
     //出屏之后重置
-    if(mmX1<-90)
+    if(mmX1<-88)
     {
-        h1=GlobalUtils::getRandomNum(780-200-220); //获取随机数
-        mmX1=440;
+        h1=GlobalUtils::getRandomNum(780-200-250); //获取随机数
+        mmX1=mmX2+301;
         isScoreMm1=false;
         isInitMm11=isInitMm12=true;
     }
@@ -461,19 +461,19 @@ void MainWindow::drawMm2()
     //设置透明边框
     painter.setPen(Qt::transparent);
     //构造线性渐变填充杆子
-    QLinearGradient linearGradient(QPointF((90-8)/2+mmX2, 0), QPointF((90+8)/2+mmX2, 0));
+    QLinearGradient linearGradient(QPointF((88-8)/2+mmX2, 0), QPointF((88+8)/2+mmX2, 0));
     linearGradient.setColorAt(0, QColor(179,166,175));
     linearGradient.setColorAt(1, QColor(158,135,127));
     QBrush brush(linearGradient);
     painter.setBrush(brush);
 
-    painter.drawRect((90-8)/2+mmX2,0,8,h2);
-    painter.drawRect((90-8)/2+mmX2,h2+220+90,8,780-(h2+220-90));
+    painter.drawRect((88-8)/2+mmX2,0,8,h2);
+    painter.drawRect((88-8)/2+mmX2,h2+250+88,8,780-(h2+250-88));
     //绘制棉花糖
     painter.drawPixmap(mmX2,h2,m1Group2);
-    painter.drawPixmap(mmX2,h2+220,m2Group2);
+    painter.drawPixmap(mmX2,h2+250,m2Group2);
     //增加分数
-    if(mmX2+90<androidX+42 && !isScoreMm2)
+    if(mmX2+88<androidX+42 && !isScoreMm2)
     {
         score++;
         isScoreMm2=true;
@@ -504,7 +504,10 @@ void MainWindow::drawScore()
     painter.setPen(pen);
     painter.setRenderHint(QPainter::Antialiasing);
     QPainterPath path;
-    path.addRoundedRect(QRectF((360-32)/2, 16, 32, 36), 0.5, 0.5);
+    //防止记分板装不下数字
+    int x=getDigit(score);
+    path.addRoundedRect(QRectF((360-28-14*(x-1))/2, 16, 28+14*(x-1), 30), 0.1, 0.1);
+
     painter.fillPath(path, color);
     painter.drawPath(path);
 
@@ -512,7 +515,7 @@ void MainWindow::drawScore()
     painter.setFont(font);
 
     painter.setPen(Qt::white);
-    painter.drawText(QRectF((360-32)/2, 16, 32, 36),Qt::AlignCenter,QString::number(score));
+    painter.drawText(QRectF((360-28-14*(x-1))/2, 16, 28+14*(x-1), 30),Qt::AlignCenter,QString::number(score));
 }
 //保持持续的paint事件
 void MainWindow::loopPaint()
@@ -530,24 +533,24 @@ bool MainWindow::isCrush()
     if(androidY>780-42)
         return true;
     //与第一对循环棉花糖碰撞
-    if(androidX+42>mmX1+10 && androidX<mmX1+90 && androidY+42>h1+20 && androidY<h1+70)
+    if(androidX+42>mmX1+10 && androidX<mmX1+88 && androidY+42>h1+20 && androidY<h1+70)
         return true;
-    if(androidX+42>mmX1+10 && androidX<mmX1+90 && androidY+42>h1+220+30 && androidY<h1+220+70)
+    if(androidX+42>mmX1+10 && androidX<mmX1+88 && androidY+42>h1+250+30 && androidY<h1+250+70)
         return true;
     //第二对
-    if(androidX+42>mmX2+10 && androidX<mmX2+90 && androidY+42>h2+20 && androidY<h2+70)
+    if(androidX+42>mmX2+10 && androidX<mmX2+88 && androidY+42>h2+20 && androidY<h2+70)
         return true;
-    if(androidX+42>mmX2+10 && androidX<mmX2+90 && androidY+42>h2+220+30 && androidY<h2+220+70)
+    if(androidX+42>mmX2+10 && androidX<mmX2+88 && androidY+42>h2+250+30 && androidY<h2+250+70)
         return true;
     //第一对的杆子相碰
-    if(androidX+42>mmX1+(90-6)/2 && androidX<mmX1+(90+6)/2 && androidY<h1)
+    if(androidX+42>mmX1+(88-6)/2 && androidX<mmX1+(88+6)/2 && androidY<h1)
         return true;
-    if(androidX+42>mmX1+(90-6)/2 && androidX<mmX1+(90+6)/2 && androidY+42>h1+220+90)
+    if(androidX+42>mmX1+(88-6)/2 && androidX<mmX1+(88+6)/2 && androidY+42>h1+250+88)
         return true;
     //第二对
-    if(androidX+42>mmX2+(90-6)/2 && androidX<mmX2+(90+6)/2 && androidY<h2)
+    if(androidX+42>mmX2+(88-6)/2 && androidX<mmX2+(88+6)/2 && androidY<h2)
         return true;
-    if(androidX+42>mmX2+(90-6)/2 && androidX<mmX2+(90+6)/2 && androidY+42>h2+220+90)
+    if(androidX+42>mmX2+(88-6)/2 && androidX<mmX2+(88+6)/2 && androidY+42>h2+250+88)
         return true;
     return false;
 }

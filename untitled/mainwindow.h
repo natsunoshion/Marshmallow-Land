@@ -91,8 +91,24 @@ public:
     void mouseReleaseEvent(QMouseEvent *event);
     //绘制事件
     void paintEvent(QPaintEvent *event);
-
+    //背景
     void drawBack();
+    //数位计算
+    int getDigit(int x)
+    {
+        if(x==0)
+            return 1;
+        int a;
+        for(a=0;;)
+        {
+            if(x>0)
+                a++;
+            x/=10;
+            if(x==0)
+                break;
+        }
+        return a;
+    }
     //初始化
     void init();
     //绘制里的事件，分别paint
