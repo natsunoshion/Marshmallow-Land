@@ -24,6 +24,7 @@ void MainWindow::init()
     isMoon=GlobalUtils::getRandomNum(2);
     isSun=GlobalUtils::getRandomNum(2);
     isStar=GlobalUtils::getRandomNum(2);
+    isCloud=GlobalUtils::getRandomNum(2);
     //白天没有星星，但是可以有月亮（咦？
     if(mTimeOfDay==DAY)
         isStar=false;
@@ -33,6 +34,17 @@ void MainWindow::init()
     //太阳和月亮不同时出现
     if(isSun)
         isMoon=false;
+    if(mScene==SCENE_ZRH)
+    {
+        isMountain=true;
+        //清除上次的状态
+        isCactus=false;
+    }
+    if(mScene==SCENE_TX)
+    {
+        isCactus=true;
+        isMountain=false;
+    }
     //初始化窗口大小
     this->setFixedSize(360,780);
     //初始化坐标以及相关数据
@@ -62,13 +74,13 @@ void MainWindow::init()
     sunOrMoonX=GlobalUtils::getRandomNum(20,340);
     sunOrMoonY=GlobalUtils::getRandomNum(20,760);
     //初始化山
-    //山的数量，随机产生，上限为6
-    mountainNumber=GlobalUtils::getRandomNum(6)+1;
+    //山的数量，随机产生，上限为8
+    mountainNumber=GlobalUtils::getRandomNum(6)+3;
     for(int i=1;i<=mountainNumber;i++)
     {
         mountainType[i]=GlobalUtils::getRandomNum(3);
-        mountainSpeed[i]=GlobalUtils::getRandomNum((double)3.1);
-        x[i]=GlobalUtils::getRandomNum(400);
+        mountainSpeed[i]=GlobalUtils::getRandomNum((double)1.7)+0.1;
+        x[i]=GlobalUtils::getRandomNum(720);
         w[i]=GlobalUtils::getRandomNum(100,300);
         //初始化图像、宽度、横坐标，注意一定是先初始化宽度
         mountainInstance[i].setWidth(w[i]);
@@ -76,17 +88,33 @@ void MainWindow::init()
         mountainInstance[i].setX(x[i]);
     }
     //初始化云
-    cloudNumber=GlobalUtils::getRandomNum(0,10);
+    //云依然可以特较多
+    cloudNumber=GlobalUtils::getRandomNum(3,15);
     for(int i=1;i<=cloudNumber;i++)
     {
-        cloudSpeed[i]=GlobalUtils::getRandomNum((double)3.1)+0.5;
-        xCloud[i]=GlobalUtils::getRandomNum(400);
-        yCloud[i]=GlobalUtils::getRandomNum(500);
+        cloudSpeed[i]=GlobalUtils::getRandomNum((double)1.3)+0.5;
+        xCloud[i]=GlobalUtils::getRandomNum(720);
+        yCloud[i]=GlobalUtils::getRandomNum(780);
         widthCloud[i]=GlobalUtils::getRandomNum(50,100);
         cloudInstance[i].setX(xCloud[i]);
         cloudInstance[i].setY(yCloud[i]);
         cloudInstance[i].setWidth(widthCloud[i]);
         cloudInstance[i].setCloud();
+    }
+    //初始化仙人掌
+    //仙人掌比较多
+    cactusNumber=GlobalUtils::getRandomNum(7,10);
+    for(int i=1;i<=cactusNumber;i++)
+    {
+        cactusType[i]=GlobalUtils::getRandomNum(3);
+        cactusSpeed[i]=GlobalUtils::getRandomNum((double)1.7)+0.1;
+        xCactus[i]=GlobalUtils::getRandomNum(720);
+        //仙人掌比较小
+        widthCactus[i]=GlobalUtils::getRandomNum(70,150);
+        //初始化图像、宽度、横坐标，注意一定是先初始化宽度
+        cactusInstance[i].setWidth(widthCactus[i]);
+        cactusInstance[i].setCact(cactusType[i]);
+        cactusInstance[i].setX(x[i]);
     }
     //保持update
     connect(timer,SIGNAL(timeout()),this,SLOT(loopPaint()));
@@ -106,6 +134,21 @@ void MainWindow::drawMountain()
     {
         mountainInstance[i].draw(painter);
         mountainInstance[i].x-=mountainSpeed[i];
+    }
+    painter.setViewport(0, 0, 360, 780);
+}
+//仙人掌
+void MainWindow::drawCactus()
+{
+    QPainter painter(this);
+    if(isFlipped)
+    {
+        painter.setViewport(360, 0, -360, 780);
+    }
+    for(int i=1;i<=cactusNumber;i++)
+    {
+        cactusInstance[i].draw(painter);
+        cactusInstance[i].x-=cactusSpeed[i];
     }
     painter.setViewport(0, 0, 360, 780);
 }
@@ -202,8 +245,12 @@ void MainWindow::paintEvent(QPaintEvent *)
     //画！
     if(isStar)
         drawStar();
-    drawMountain();
-    drawCloud();
+    if(isMountain)
+        drawMountain();
+    if(isCactus)
+        drawCactus();
+    if(isCloud)
+        drawCloud();
     drawAndroid();
     drawMm1();
     drawMm2();
@@ -330,6 +377,22 @@ void MainWindow::drawMm1()
     if(isInitMm11)
     {
         test11=GlobalUtils::getRandomNum(2);
+
+        isMouth11=GlobalUtils::getRandomNum(2);
+        isEyes11=GlobalUtils::getRandomNum(2);
+        //嘴巴
+        if(isMouth11)
+        {
+            //四种嘴巴
+            mouthType11=GlobalUtils::getRandomNum(4);
+        }
+        if(isEyes11)
+        {
+            //两种眼睛
+            eyesType11=GlobalUtils::getRandomNum(2);
+        }
+
+        //触须
         if(test11==0)
         {
             m1Group1.load(":/back/images/mm1.png");
@@ -352,9 +415,27 @@ void MainWindow::drawMm1()
     if(gameStatus==RUNNING)
         mmX1-=0.8;
     //下面的棉花糖
+    //控制下面的函数只执行一次
     if(isInitMm12)
     {
+        //哪种触须
         test12=GlobalUtils::getRandomNum(2);
+
+        isMouth12=GlobalUtils::getRandomNum(2);
+        isEyes12=GlobalUtils::getRandomNum(2);
+        //嘴巴
+        if(isMouth12)
+        {
+            //四种嘴巴
+            mouthType12=GlobalUtils::getRandomNum(4);
+        }
+        if(isEyes12)
+        {
+            //两种眼睛
+            eyesType12=GlobalUtils::getRandomNum(2);
+        }
+
+        //设计触须
         if(test12==0)
         {
             m2Group1.load(":/back/images/mm1.png");
@@ -372,7 +453,7 @@ void MainWindow::drawMm1()
     //draw函数绘制杆子
     //设置透明边框
     painter.setPen(Qt::transparent);
-    //构造线性渐变填充杆子
+    //构造线性渐变填充杆子，先画的在下面
     QLinearGradient linearGradient(QPointF((88-8)/2+mmX1, 0), QPointF((88+8)/2+mmX1, 0));
     linearGradient.setColorAt(0, QColor(179,166,175));
     linearGradient.setColorAt(1, QColor(158,135,127));
@@ -383,6 +464,60 @@ void MainWindow::drawMm1()
 
     painter.drawPixmap(mmX1,h1,m1Group1);
     painter.drawPixmap(mmX1,h1+250,m2Group1);
+    //后画眼睛嘴巴，防止被遮挡
+    if(isEyes11)
+    {
+        //第一种眼睛
+        if(eyesType11==0)
+        {
+            eyes11.load(":/back/images/mm_eyes.PNG");
+            eyes11=eyes11.scaled(88,88);
+            //翻转
+            QMatrix m;
+            m.rotate(180);
+            eyes11=eyes11.transformed(m);
+            //参数
+            painter.drawPixmap(mmX1,h1,eyes11);
+        }
+        //第二种
+        if(eyesType11==1)
+        {
+            eyes11.load(":/back/images/mm_eyes2.PNG");
+            eyes11=eyes11.scaled(88,88);
+            //翻转
+            QMatrix m;
+            m.rotate(180);
+            eyes11=eyes11.transformed(m);
+            //参数
+            painter.drawPixmap(mmX1,h1,eyes11);
+        }
+    }
+    //下面的
+    if(isEyes12)
+    {
+        //第一种眼睛
+        if(eyesType12==0)
+        {
+            eyes12.load(":/back/images/mm_eyes.PNG");
+            eyes12=eyes12.scaled(88,88);
+            //参数
+            if(test12==0)
+                painter.drawPixmap(mmX1,h1+250+16,eyes12);
+            else
+                painter.drawPixmap(mmX1,h1+250+10,eyes12);
+        }
+        //第二种
+        if(eyesType12==1)
+        {
+            eyes12.load(":/back/images/mm_eyes2.PNG");
+            eyes12=eyes12.scaled(88,88);
+            //参数
+            if(test12==0)
+                painter.drawPixmap(mmX1,h1+250+16,eyes12);
+            else
+                painter.drawPixmap(mmX1,h1+250+10,eyes12);
+        }
+    }
 
     if(mmX2<-88)
     {
@@ -410,6 +545,21 @@ void MainWindow::drawMm2()
     if(isInitMm21)
     {
         test21=GlobalUtils::getRandomNum(2);
+
+        isMouth21=GlobalUtils::getRandomNum(2);
+        isEyes21=GlobalUtils::getRandomNum(2);
+        //嘴巴
+        if(isMouth21)
+        {
+            //四种嘴巴
+            mouthType21=GlobalUtils::getRandomNum(4);
+        }
+        if(isEyes21)
+        {
+            //两种眼睛
+            eyesType21=GlobalUtils::getRandomNum(2);
+        }
+
         if(test21==0)
         {
             m1Group2.load(":/back/images/mm1.png");
@@ -434,6 +584,21 @@ void MainWindow::drawMm2()
     if(isInitMm22)
     {
         test22=GlobalUtils::getRandomNum(2);
+
+        isMouth22=GlobalUtils::getRandomNum(2);
+        isEyes22=GlobalUtils::getRandomNum(2);
+        //嘴巴
+        if(isMouth22)
+        {
+            //四种嘴巴
+            mouthType22=GlobalUtils::getRandomNum(4);
+        }
+        if(isEyes22)
+        {
+            //两种眼睛
+            eyesType22=GlobalUtils::getRandomNum(2);
+        }
+
         if(test22==0)
         {
             m2Group2.load(":/back/images/mm1.png");
@@ -472,6 +637,62 @@ void MainWindow::drawMm2()
     //绘制棉花糖
     painter.drawPixmap(mmX2,h2,m1Group2);
     painter.drawPixmap(mmX2,h2+250,m2Group2);
+
+    //后画眼睛嘴巴，防止被遮挡
+    if(isEyes21)
+    {
+        //第一种眼睛
+        if(eyesType21==0)
+        {
+            eyes21.load(":/back/images/mm_eyes.PNG");
+            eyes21=eyes21.scaled(88,88);
+            //翻转
+            QMatrix m;
+            m.rotate(180);
+            eyes21=eyes21.transformed(m);
+            //参数
+            painter.drawPixmap(mmX2,h2,eyes21);
+        }
+        //第二种
+        if(eyesType21==1)
+        {
+            eyes21.load(":/back/images/mm_eyes2.PNG");
+            eyes21=eyes21.scaled(88,88);
+            //翻转
+            QMatrix m;
+            m.rotate(180);
+            eyes21=eyes21.transformed(m);
+            //参数
+            painter.drawPixmap(mmX2,h2,eyes21);
+        }
+    }
+    //下面的
+    if(isEyes22)
+    {
+        //第一种眼睛
+        if(eyesType22==0)
+        {
+            eyes22.load(":/back/images/mm_eyes.PNG");
+            eyes22=eyes22.scaled(88,88);
+            //参数
+            if(test12==0)
+                painter.drawPixmap(mmX2,h2+250+16,eyes22);
+            else
+                painter.drawPixmap(mmX2,h2+250+10,eyes22);
+        }
+        //第二种
+        if(eyesType22==1)
+        {
+            eyes22.load(":/back/images/mm_eyes2.PNG");
+            eyes22=eyes22.scaled(88,88);
+            //参数
+            if(test22==0)
+                painter.drawPixmap(mmX2,h2+250+16,eyes22);
+            else
+                painter.drawPixmap(mmX2,h2+250+10,eyes22);
+        }
+    }
+
     //增加分数
     if(mmX2+88<androidX+42 && !isScoreMm2)
     {

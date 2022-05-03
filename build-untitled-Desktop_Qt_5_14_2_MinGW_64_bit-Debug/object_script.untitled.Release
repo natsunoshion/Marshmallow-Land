@@ -1,0 +1,11 @@
+release/cactus.o
+release/cloud.o
+release/globalutils.o
+release/main.o
+release/mainwindow.o
+release/mountain.o
+release/qrc_images.o
+release/moc_cactus.o
+release/moc_cloud.o
+release/moc_mainwindow.o
+release/moc_mountain.o

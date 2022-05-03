@@ -9,6 +9,7 @@
 #include "globalutils.h"
 #include "mountain.h"
 #include "cloud.h"
+#include "cactus.h"
 
 class MainWindow : public QMainWindow
 {
@@ -22,8 +23,8 @@ public:
     int mScene;
     int DAY=0, NIGHT=1, TWILIGHT=2, SUNSET=3;
     int SCENE_ZRH=0,SCENE_TX=1,SCENE_CITY=2;
-    bool isCloud=0,isCactus=0;
-    bool isSun=0,isMoon=0,isStar=0;
+    bool isMountain=0,isCactus=0;
+    bool isSun=0,isMoon=0,isStar=0,isCloud=0;
     //安卓横纵坐标
     double androidX;
     double androidY;
@@ -68,6 +69,13 @@ public:
     //主题随机功能，尚未完成
     int themeColor;
     int themeItem;
+    //仙人掌
+    int cactusNumber=0;
+    int cactusType[100];
+    cactus cactusInstance[100];
+    double xCactus[100];
+    int widthCactus[100];
+    double cactusSpeed[100];
     //云
     int cloudNumber=0;
     cloud cloudInstance[100];
@@ -80,10 +88,18 @@ public:
     int starX[100],starY[100];
     //棉花糖
     QPixmap m1Group1,m2Group1,m1Group2,m2Group2;
+
+    QPixmap mouth11,mouth12,mouth21,mouth22 ,eyes11,eyes12,eyes21,eyes22;
     //初始化棉花糖的触角朝向
     bool isInitMm11=true,isInitMm12=true,isInitMm21=true,isInitMm22=true;
+    //触须种类
     int test11,test12,test21,test22;
-
+    int isMouth11,isMouth12,isMouth21,isMouth22;
+    int isEyes11,isEyes12,isEyes21,isEyes22;
+    //嘴巴种类
+    int mouthType11,mouthType12,mouthType21,mouthType22;
+    //眼睛种类
+    int eyesType11,eyesType12,eyesType21,eyesType22;
     //函数部分开始
     //鼠标按下
     void mousePressEvent(QMouseEvent *event);
@@ -114,6 +130,8 @@ public:
     //绘制里的事件，分别paint
     //山
     void drawMountain();
+    //仙人掌
+    void drawCactus();
     //云
     void drawCloud();
     //星星
