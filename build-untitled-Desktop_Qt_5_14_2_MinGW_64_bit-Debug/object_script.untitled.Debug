@@ -1,0 +1,11 @@
+debug/cactus.o
+debug/cloud.o
+debug/globalutils.o
+debug/main.o
+debug/mainwindow.o
+debug/mountain.o
+debug/qrc_images.o
+debug/moc_cactus.o
+debug/moc_cloud.o
+debug/moc_mainwindow.o
+debug/moc_mountain.o

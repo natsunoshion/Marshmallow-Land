@@ -1,0 +1,24 @@
+<RCC>
+    <qresource prefix="/back">
+        <file>images/android.PNG</file>
+        <file>images/mm_eyes.PNG</file>
+        <file>images/mm_eyes2.PNG</file>
+        <file>images/mm_mouth1.PNG</file>
+        <file>images/mm_mouth2.PNG</file>
+        <file>images/sun.png</file>
+        <file>images/androidBlue.png</file>
+        <file>images/mountain1.png</file>
+        <file>images/mountain2.png</file>
+        <file>images/mountain3.png</file>
+        <file>images/mm1.png</file>
+        <file>images/mm2.png</file>
+        <file>images/cloud.png</file>
+        <file>images/moon.png</file>
+        <file>images/star.png</file>
+        <file>images/cactus1.png</file>
+        <file>images/cactus2.png</file>
+        <file>images/cactus3.png</file>
+        <file>images/mm_mouth3.png</file>
+        <file>images/mm_mouth4.png</file>
+    </qresource>
+</RCC>
