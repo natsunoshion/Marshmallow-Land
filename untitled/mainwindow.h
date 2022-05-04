@@ -66,9 +66,9 @@ public:
     double mountainSpeed[100];
     //太阳
     int sunOrMoonX,sunOrMoonY;
-    //主题随机功能，尚未完成
+    //随机主题功能
     int themeColor;
-    int themeItem;
+    int Theme_Blue=0,Theme_Yellow=1,Theme_Green=2,Theme_Purple=3,Theme_Grey=4,Theme_Red=5;
     //仙人掌
     int cactusNumber=0;
     int cactusType[100];

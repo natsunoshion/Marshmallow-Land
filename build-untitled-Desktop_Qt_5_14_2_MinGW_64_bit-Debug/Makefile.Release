@@ -128,16 +128,19 @@ release/qrc_images.cpp: ../untitled/images.qrc \
 		C:/Qt/Qt5.14.2/5.14.2/mingw73_64/bin/rcc.exe \
 		../untitled/images/mm_mouth1.PNG \
 		../untitled/images/mm_mouth2.PNG \
+		../untitled/images/androidGreen.png \
 		../untitled/images/cactus1.png \
 		../untitled/images/mm_eyes2.PNG \
 		../untitled/images/cactus2.png \
 		../untitled/images/star.png \
 		../untitled/images/cactus3.png \
 		../untitled/images/mountain1.png \
+		../untitled/images/androidGrey.png \
 		../untitled/images/mountain2.png \
 		../untitled/images/mountain3.png \
 		../untitled/images/moon.png \
 		../untitled/images/android.PNG \
+		../untitled/images/androidRed.png \
 		../untitled/images/mm1.png \
 		../untitled/images/sun.png \
 		../untitled/images/mm_eyes.PNG \
@@ -145,7 +148,9 @@ release/qrc_images.cpp: ../untitled/images.qrc \
 		../untitled/images/mm2.png \
 		../untitled/images/androidBlue.png \
 		../untitled/images/mm_mouth3.png \
-		../untitled/images/mm_mouth4.png
+		../untitled/images/androidPurple.png \
+		../untitled/images/mm_mouth4.png \
+		../untitled/images/androidYellow.png
 	C:\Qt\Qt5.14.2\5.14.2\mingw73_64\bin\rcc.exe -name images ..\untitled\images.qrc -o release\qrc_images.cpp
 
 compiler_moc_predefs_make_all: release/moc_predefs.h

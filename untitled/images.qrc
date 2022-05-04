@@ -20,5 +20,10 @@
         <file>images/cactus3.png</file>
         <file>images/mm_mouth3.png</file>
         <file>images/mm_mouth4.png</file>
+        <file>images/androidGreen.png</file>
+        <file>images/androidGrey.png</file>
+        <file>images/androidPurple.png</file>
+        <file>images/androidRed.png</file>
+        <file>images/androidYellow.png</file>
     </qresource>
 </RCC>

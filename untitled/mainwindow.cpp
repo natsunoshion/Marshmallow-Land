@@ -6,6 +6,8 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
+    //每次打开游戏，主题颜色只生成一次，之后不会变化
+    themeColor=GlobalUtils::getRandomNum(6);
     //初始化
     init();
 }
@@ -330,7 +332,19 @@ void MainWindow::drawAndroid()
     {
         painter.setViewport(360, 0, -360, 780);
     }
-    QPixmap android(":/back/images/androidBlue.png");
+    QPixmap android;
+    if(themeColor==Theme_Blue)
+        android.load(":/back/images/androidBlue.png");
+    if(themeColor==Theme_Yellow)
+        android.load(":/back/images/androidYellow.png");
+    if(themeColor==Theme_Green)
+        android.load(":/back/images/androidGreen.png");
+    if(themeColor==Theme_Purple)
+        android.load(":/back/images/androidPurple.png");
+    if(themeColor==Theme_Grey)
+        android.load(":/back/images/androidGrey.png");
+    if(themeColor==Theme_Red)
+        android.load(":/back/images/androidRed.png");
     android=android.scaled(42,42);
     a+=0.1;
     imageAngle+=a;
@@ -949,22 +963,38 @@ void MainWindow::stopGame()
 //记分板
 void MainWindow::drawScore()
 {
-    QColor color(65,105,225);
+    QColor color;
+    if(themeColor==Theme_Blue)
+        color.setRgb(58,120,231);
+    if(themeColor==Theme_Yellow)
+        color.setRgb(245,180,0);
+    if(themeColor==Theme_Green)
+        color.setRgb(16,157,88);
+    if(themeColor==Theme_Purple)
+        color.setRgb(122,24,127);
+    if(themeColor==Theme_Grey)
+        color.setRgb(158,158,158);
+    if(themeColor==Theme_Red)
+        color.setRgb(220,68,55);
+
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
     QPainterPath path;
     //防止记分板装不下数字
     int x=getDigit(score);
     //绝对大小
-    path.addRoundedRect(QRectF((360-38-12*(x-1))/2, 16, 38+12*(x-1), 41), 3, 3);
-
+    path.addRoundedRect(QRectF((360-38-12*(x-1))/2, 13, 38+12*(x-1), 41), 3, 3);
+    //填充内部，不包括边界
     painter.fillPath(path, color);
 
     QFont font( "Microsoft YaHei", 13, 70);
     painter.setFont(font);
 
-    painter.setPen(Qt::white);
-    painter.drawText(QRectF((360-38-12*(x-1))/2, 16, 38+12*(x-1), 41),Qt::AlignCenter,QString::number(score));
+    if(themeColor==Theme_Yellow)
+        painter.setPen(Qt::black);
+    else
+        painter.setPen(Qt::white);
+    painter.drawText(QRectF((360-38-12*(x-1))/2, 13, 38+12*(x-1), 41),Qt::AlignCenter,QString::number(score));
 }
 //保持持续的paint事件
 void MainWindow::loopPaint()
