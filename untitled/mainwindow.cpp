@@ -384,6 +384,9 @@ void MainWindow::drawMm1()
 
         isMouth11=GlobalUtils::getRandomNum(2);
         isEyes11=GlobalUtils::getRandomNum(2);
+        //有眼睛才能有嘴巴
+        if(!isEyes11)
+            isMouth11=false;
         //嘴巴
         if(isMouth11)
         {
@@ -427,6 +430,8 @@ void MainWindow::drawMm1()
 
         isMouth12=GlobalUtils::getRandomNum(2);
         isEyes12=GlobalUtils::getRandomNum(2);
+        if(!isEyes12)
+            isMouth12=false;
         //嘴巴
         if(isMouth12)
         {
@@ -465,7 +470,7 @@ void MainWindow::drawMm1()
     painter.setBrush(brush);
     painter.drawRect((88-8)/2+mmX1,0,8,h1);
     painter.drawRect((88-8)/2+mmX1,h1+250+88,8,780-(h1+250-88));
-
+    //棉花糖
     painter.drawPixmap(mmX1,h1,m1Group1);
     painter.drawPixmap(mmX1,h1+250,m2Group1);
 
@@ -515,6 +520,53 @@ void MainWindow::drawMm1()
             painter.drawPixmap(mmX1,h1,eyes11);
         }
     }
+    if(isMouth11)
+    {
+        if(mouthType11==0)
+        {
+            mouth11.load(":/back/images/mm_mouth1.PNG");
+            mouth11=mouth11.scaled(88,88);
+            //翻转
+            QMatrix m;
+            m.rotate(180);
+            mouth11=mouth11.transformed(m);
+            //参数
+            painter.drawPixmap(mmX1,h1,mouth11);
+        }
+        if(mouthType11==1)
+        {
+            mouth11.load(":/back/images/mm_mouth2.PNG");
+            mouth11=mouth11.scaled(88,88);
+            //翻转
+            QMatrix m;
+            m.rotate(180);
+            mouth11=mouth11.transformed(m);
+            //参数
+            painter.drawPixmap(mmX1,h1,mouth11);
+        }
+        if(mouthType11==2)
+        {
+            mouth11.load(":/back/images/mm_mouth3.png");
+            mouth11=mouth11.scaled(88,88);
+            //翻转
+            QMatrix m;
+            m.rotate(180);
+            mouth11=mouth11.transformed(m);
+            //参数
+            painter.drawPixmap(mmX1,h1,mouth11);
+        }
+        if(mouthType11==3)
+        {
+            mouth11.load(":/back/images/mm_mouth4.png");
+            mouth11=mouth11.scaled(88,88);
+            //翻转
+            QMatrix m;
+            m.rotate(180);
+            mouth11=mouth11.transformed(m);
+            //参数
+            painter.drawPixmap(mmX1,h1,mouth11);
+        }
+    }
     //下面的
     if(isEyes12)
     {
@@ -539,6 +591,49 @@ void MainWindow::drawMm1()
                 painter.drawPixmap(mmX1,h1+250+16,eyes12);
             else
                 painter.drawPixmap(mmX1,h1+250+10,eyes12);
+        }
+    }
+    if(isMouth12)
+    {
+        if(mouthType12==0)
+        {
+            mouth12.load(":/back/images/mm_mouth1.PNG");
+            mouth12=mouth12.scaled(88,88);
+            //参数
+            if(test12==0)
+                painter.drawPixmap(mmX1,h1+250+16,mouth12);
+            else
+                painter.drawPixmap(mmX1,h1+250+10,mouth12);
+        }
+        if(mouthType12==1)
+        {
+            mouth12.load(":/back/images/mm_mouth2.PNG");
+            mouth12=mouth12.scaled(88,88);
+            //参数
+            if(test12==0)
+                painter.drawPixmap(mmX1,h1+250+16,mouth12);
+            else
+                painter.drawPixmap(mmX1,h1+250+10,mouth12);
+        }
+        if(mouthType12==2)
+        {
+            mouth12.load(":/back/images/mm_mouth3.PNG");
+            mouth12=mouth12.scaled(88,88);
+            //参数
+            if(test12==0)
+                painter.drawPixmap(mmX1,h1+250+16,mouth12);
+            else
+                painter.drawPixmap(mmX1,h1+250+10,mouth12);
+        }
+        if(mouthType12==3)
+        {
+            mouth12.load(":/back/images/mm_mouth4.PNG");
+            mouth12=mouth12.scaled(88,88);
+            //参数
+            if(test12==0)
+                painter.drawPixmap(mmX1,h1+250+16,mouth12);
+            else
+                painter.drawPixmap(mmX1,h1+250+10,mouth12);
         }
     }
 
@@ -571,6 +666,8 @@ void MainWindow::drawMm2()
 
         isMouth21=GlobalUtils::getRandomNum(2);
         isEyes21=GlobalUtils::getRandomNum(2);
+        if(!isEyes21)
+            isMouth21=false;
         //嘴巴
         if(isMouth21)
         {
@@ -610,6 +707,8 @@ void MainWindow::drawMm2()
 
         isMouth22=GlobalUtils::getRandomNum(2);
         isEyes22=GlobalUtils::getRandomNum(2);
+        if(!isEyes22)
+            isMouth22=false;
         //嘴巴
         if(isMouth22)
         {
@@ -707,6 +806,53 @@ void MainWindow::drawMm2()
             painter.drawPixmap(mmX2,h2,eyes21);
         }
     }
+    if(isMouth21)
+    {
+        if(mouthType21==0)
+        {
+            mouth21.load(":/back/images/mm_mouth1.PNG");
+            mouth21=mouth21.scaled(88,88);
+            //翻转
+            QMatrix m;
+            m.rotate(180);
+            mouth21=mouth21.transformed(m);
+            //参数
+            painter.drawPixmap(mmX2,h2,mouth21);
+        }
+        if(mouthType21==1)
+        {
+            mouth21.load(":/back/images/mm_mouth2.PNG");
+            mouth21=mouth21.scaled(88,88);
+            //翻转
+            QMatrix m;
+            m.rotate(180);
+            mouth21=mouth21.transformed(m);
+            //参数
+            painter.drawPixmap(mmX2,h2,mouth21);
+        }
+        if(mouthType21==2)
+        {
+            mouth21.load(":/back/images/mm_mouth3.png");
+            mouth21=mouth21.scaled(88,88);
+            //翻转
+            QMatrix m;
+            m.rotate(180);
+            mouth21=mouth21.transformed(m);
+            //参数
+            painter.drawPixmap(mmX2,h2,mouth21);
+        }
+        if(mouthType21==3)
+        {
+            mouth21.load(":/back/images/mm_mouth4.png");
+            mouth21=mouth21.scaled(88,88);
+            //翻转
+            QMatrix m;
+            m.rotate(180);
+            mouth21=mouth21.transformed(m);
+            //参数
+            painter.drawPixmap(mmX2,h2,mouth21);
+        }
+    }
     //下面的
     if(isEyes22)
     {
@@ -716,7 +862,7 @@ void MainWindow::drawMm2()
             eyes22.load(":/back/images/mm_eyes.PNG");
             eyes22=eyes22.scaled(88,88);
             //参数
-            if(test12==0)
+            if(test22==0)
                 painter.drawPixmap(mmX2,h2+250+16,eyes22);
             else
                 painter.drawPixmap(mmX2,h2+250+10,eyes22);
@@ -731,6 +877,49 @@ void MainWindow::drawMm2()
                 painter.drawPixmap(mmX2,h2+250+16,eyes22);
             else
                 painter.drawPixmap(mmX2,h2+250+10,eyes22);
+        }
+    }
+    if(isMouth22)
+    {
+        if(mouthType22==0)
+        {
+            mouth22.load(":/back/images/mm_mouth1.PNG");
+            mouth22=mouth22.scaled(88,88);
+            //参数
+            if(test22==0)
+                painter.drawPixmap(mmX2,h2+250+16,mouth22);
+            else
+                painter.drawPixmap(mmX2,h2+250+10,mouth22);
+        }
+        if(mouthType22==1)
+        {
+            mouth22.load(":/back/images/mm_mouth2.PNG");
+            mouth22=mouth22.scaled(88,88);
+            //参数
+            if(test22==0)
+                painter.drawPixmap(mmX2,h2+250+16,mouth22);
+            else
+                painter.drawPixmap(mmX2,h2+250+10,mouth22);
+        }
+        if(mouthType22==2)
+        {
+            mouth22.load(":/back/images/mm_mouth3.PNG");
+            mouth22=mouth22.scaled(88,88);
+            //参数
+            if(test22==0)
+                painter.drawPixmap(mmX2,h2+250+16,mouth22);
+            else
+                painter.drawPixmap(mmX2,h2+250+10,mouth22);
+        }
+        if(mouthType22==3)
+        {
+            mouth22.load(":/back/images/mm_mouth4.PNG");
+            mouth22=mouth22.scaled(88,88);
+            //参数
+            if(test22==0)
+                painter.drawPixmap(mmX2,h2+250+16,mouth22);
+            else
+                painter.drawPixmap(mmX2,h2+250+10,mouth22);
         }
     }
 
