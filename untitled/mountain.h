@@ -9,7 +9,7 @@ class mountain : public QObject
     Q_OBJECT
 public:
     mountain();
-    QPixmap moun;
+    QPixmap moun,mounShadow;
     //水平位置
     double x;
     int width;
@@ -18,6 +18,7 @@ public:
     void setX(int n);
     void setWidth(int w);
     void draw(QPainter &painter);
+    void drawShadow(QPainter &painter,double shadow);
 
 signals:
 

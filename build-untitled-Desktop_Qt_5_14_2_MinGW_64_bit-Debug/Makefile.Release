@@ -126,6 +126,7 @@ compiler_rcc_clean:
 	-$(DEL_FILE) release\qrc_images.cpp
 release/qrc_images.cpp: ../untitled/images.qrc \
 		C:/Qt/Qt5.14.2/5.14.2/mingw73_64/bin/rcc.exe \
+		../untitled/images/mountain1Shadow.png \
 		../untitled/images/mm_mouth1.PNG \
 		../untitled/images/mm_mouth2.PNG \
 		../untitled/images/androidGreen.png \
@@ -134,10 +135,14 @@ release/qrc_images.cpp: ../untitled/images.qrc \
 		../untitled/images/cactus2.png \
 		../untitled/images/star.png \
 		../untitled/images/cactus3.png \
+		../untitled/images/mountain3Shadow.png \
 		../untitled/images/mountain1.png \
 		../untitled/images/androidGrey.png \
 		../untitled/images/mountain2.png \
 		../untitled/images/mountain3.png \
+		../untitled/images/cactus1Shadow.png \
+		../untitled/images/cactus2Shadow.png \
+		../untitled/images/cactus3Shadow.png \
 		../untitled/images/moon.png \
 		../untitled/images/android.PNG \
 		../untitled/images/androidRed.png \

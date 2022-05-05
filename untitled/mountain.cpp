@@ -10,16 +10,22 @@ void mountain::setMoun(int m)
     {
         moun.load(":/back/images/mountain1.png");
         moun=moun.scaled(width,width);
+        mounShadow.load(":/back/images/mountain1Shadow.png");
+        mounShadow=mounShadow.scaled(width,width);
     }
     if(m==1)
     {
         moun.load(":/back/images/mountain2.png");
         moun=moun.scaled(width,width);
+        mounShadow.load(":/back/images/mountain1Shadow.png");
+        mounShadow=mounShadow.scaled(width,width);
     }
     if(m==2)
     {
         moun.load(":/back/images/mountain3.png");
         moun=moun.scaled(width,width);
+        mounShadow.load(":/back/images/mountain3Shadow.png");
+        mounShadow=mounShadow.scaled(width,width);
     }
 }
 
@@ -36,4 +42,10 @@ void mountain::setWidth(int w)
 void mountain::draw(QPainter &painter)
 {
     painter.drawPixmap(x,780-width,moun);
+}
+
+void mountain::drawShadow(QPainter &painter, double shadow)
+{
+    painter.setOpacity(shadow);
+    painter.drawPixmap(x,780-width,mounShadow);
 }

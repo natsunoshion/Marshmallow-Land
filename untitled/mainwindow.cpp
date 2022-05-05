@@ -139,7 +139,10 @@ void MainWindow::drawMountain()
     for(int i=1;i<=mountainNumber;i++)
     {
         mountainInstance[i].draw(painter);
+        mountainInstance[i].drawShadow(painter,(double)(1.0-(double)(i-1)/(double)(mountainNumber-1.0)));
         mountainInstance[i].x-=mountainSpeed[i];
+        //重置透明度，防止下次实例被设置为透明
+        painter.setOpacity(1.0);
     }
     painter.setViewport(0, 0, 360, 780);
 }
@@ -154,7 +157,9 @@ void MainWindow::drawCactus()
     for(int i=1;i<=cactusNumber;i++)
     {
         cactusInstance[i].draw(painter);
+        cactusInstance[i].drawShadow(painter,(double)(1.0-(double)(i-1.0)/(double)(cactusNumber-1.0)));
         cactusInstance[i].x-=cactusSpeed[i];
+        painter.setOpacity(1.0);
     }
     painter.setViewport(0, 0, 360, 780);
 }
