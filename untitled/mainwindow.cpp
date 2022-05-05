@@ -431,21 +431,14 @@ void MainWindow::drawAndroid()
     if(themeColor==Theme_Red)
         android.load(":/back/images/androidRed.png");
     android=android.scaled(42,42);
-    a+=0.1;
-    imageAngle+=a;
 
-    if(imageAngle>180)
-        imageAngle=180;
-
-    painter.translate(androidX+21,androidY+21);
-    painter.rotate(imageAngle);
-    painter.drawPixmap(-21,-21,android);
-    painter.resetTransform();
     //下降
     if(androidStatus==AndroidStatus::DOWN)
     {
         androidUpSpeed-=0.35;
         androidY-=androidUpSpeed;
+        if(androidY>780-42)
+            androidY=780-42;
     }
     //上升
     if(androidStatus == AndroidStatus::UP)
@@ -458,6 +451,18 @@ void MainWindow::drawAndroid()
             androidStatus=AndroidStatus::DOWN;
         }
     }
+
+    a+=0.1;
+    imageAngle+=a;
+
+    if(imageAngle>180)
+        imageAngle=180;
+
+    painter.translate(androidX+21,androidY+21);
+    painter.rotate(imageAngle);
+    painter.drawPixmap(-21,-21,android);
+    painter.resetTransform();
+
     //碰撞了就结束游戏
     if(isCrush())
         stopGame();
@@ -1154,7 +1159,7 @@ void MainWindow::startCount()
     QTimer::singleShot(1200,this,[=]{
         countNumber=0;
     });
-    QTimer::singleShot(1500,this,[=]{
+    QTimer::singleShot(1300,this,[=]{
         countNumber=0;
         initAndroid();
         initMm();
@@ -1171,7 +1176,7 @@ void MainWindow::initSpeed()
 bool MainWindow::isCrush()
 {
     //掉到地板下面了
-    if(androidY>780-42)
+    if(androidY==780-42)
         return true;
     //与第一对循环棉花糖碰撞
     if(androidX+42>mmX1+10 && androidX<mmX1+78 && androidY+42>h1+20 && androidY<h1+70)
