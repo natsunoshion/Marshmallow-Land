@@ -30,5 +30,7 @@
         <file>images/cactus2Shadow.png</file>
         <file>images/cactus3Shadow.png</file>
         <file>images/cactus1Shadow.png</file>
+        <file>images/play.png</file>
+        <file>images/shadow.png</file>
     </qresource>
 </RCC>

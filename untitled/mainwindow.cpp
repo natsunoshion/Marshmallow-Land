@@ -11,16 +11,32 @@ MainWindow::MainWindow(QWidget *parent)
     //初始化
     init();
 }
-//默认析构
+//析构
 MainWindow::~MainWindow()
 {
+    delete play;
 }
 //初始化函数内容
 void MainWindow::init()
 {
+    //播放按钮
+    play=new QPushButton(this);
+    play->setFixedSize(48,48);
+    QPixmap iconPixmap(":/back/images/play.png");
+    QIcon icon(iconPixmap);
+    play->setIconSize(QSize(48, 48));
+    play->setStyleSheet("QPushButton{color:white; background-color:transparent;}");
+    //设置图标
+    play->setIcon(icon);
+    play->setLayoutDirection(Qt::LeftToRight);
+    play->setFlat(true);
+    //移动到中心
+    play->move((360-48)/2,(780-48)/2);
     //生成主题
     //时间
     mTimeOfDay=GlobalUtils::getRandomNum(4);
+
+    mTimeOfDay=DAY;
     //场景
     mScene=GlobalUtils::getRandomNum(3);
     isMoon=GlobalUtils::getRandomNum(2);
@@ -124,6 +140,10 @@ void MainWindow::init()
     }
     //保持update
     connect(timer,SIGNAL(timeout()),this,SLOT(loopPaint()));
+    //按下按键开始游戏
+    connect(play,SIGNAL(clicked()),this,SLOT(initAndroid()));
+    connect(play,SIGNAL(clicked()),this,SLOT(initMm()));
+    connect(play,SIGNAL(clicked()),this,SLOT(hideButton()));
     //检测画面方向，每死一次改变一次方向，防止玩家视觉疲劳
     isFlipped=!isFlipped;
     initSpeed();
@@ -262,9 +282,18 @@ void MainWindow::paintEvent(QPaintEvent *)
         drawCactus();
     if(isCloud)
         drawCloud();
-    drawAndroid();
-    drawMm1();
-    drawMm2();
+    if(startAndroid)
+        drawAndroid();
+    if(startMm)
+    {
+        drawMm1();
+        drawMm2();
+    }
+    if(!startAndroid)
+    {
+        drawShadowPause();
+        drawCircle();
+    }
     //屏幕正中间的分数图标
     drawScore();
 }
@@ -386,6 +415,23 @@ void MainWindow::drawAndroid()
         androidY=0;
     //重置
     painter.setViewport(0, 0, 360, 780);
+}
+
+void MainWindow::drawCircle()
+{
+    QPainter painter(this);
+    QPainterPath path;
+    path.addEllipse(QRect((360-72)/2,(780-72)/2,72,72));
+    QBrush brush(QColor(170,170,170));
+    painter.fillPath(path,brush);
+}
+
+void MainWindow::drawShadowPause()
+{
+    QPainter painter(this);
+    painter.setOpacity(0.63);
+    QPixmap shadow(":/back/images/shadow.png");
+    painter.drawPixmap(0,0,shadow);
 }
 //第一个循环棉花糖
 void MainWindow::drawMm1()
@@ -1006,6 +1052,22 @@ void MainWindow::loopPaint()
 {
     update();
 }
+
+void MainWindow::initAndroid()
+{
+    startAndroid=true;
+}
+
+void MainWindow::initMm()
+{
+    startMm=true;
+}
+
+void MainWindow::hideButton()
+{
+    play->setVisible(false);
+    play->setEnabled(false);
+}
 //向上的初速度
 void MainWindow::initSpeed()
  {
@@ -1014,6 +1076,7 @@ void MainWindow::initSpeed()
 //自己写碰撞检测
 bool MainWindow::isCrush()
 {
+    //掉到地板下面了
     if(androidY>780-42)
         return true;
     //与第一对循环棉花糖碰撞

@@ -130,6 +130,7 @@ debug/qrc_images.cpp: ../untitled/images.qrc \
 		../untitled/images/mm_mouth1.PNG \
 		../untitled/images/mm_mouth2.PNG \
 		../untitled/images/androidGreen.png \
+		../untitled/images/play.png \
 		../untitled/images/cactus1.png \
 		../untitled/images/mm_eyes2.PNG \
 		../untitled/images/cactus2.png \
@@ -143,6 +144,7 @@ debug/qrc_images.cpp: ../untitled/images.qrc \
 		../untitled/images/cactus1Shadow.png \
 		../untitled/images/cactus2Shadow.png \
 		../untitled/images/cactus3Shadow.png \
+		../untitled/images/shadow.png \
 		../untitled/images/moon.png \
 		../untitled/images/android.PNG \
 		../untitled/images/androidRed.png \

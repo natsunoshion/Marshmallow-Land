@@ -18,6 +18,8 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    QPushButton * play;
+    bool startAndroid=false,startMm=false;
     //主题
     int mTimeOfDay;
     int mScene;
@@ -145,6 +147,10 @@ public:
     void drawMm2();
     //安卓
     void drawAndroid();
+    //暂停键的白色圈
+    void drawCircle();
+    //暂停时的阴影
+    void drawShadowPause();
     //记分板
     void drawScore();
     //初速度
@@ -159,5 +165,8 @@ public:
 public slots:
     //循环绘制（定时器）
     void loopPaint();
+    void initAndroid();
+    void initMm();
+    void hideButton();
 };
 #endif // MAINWINDOW_H
