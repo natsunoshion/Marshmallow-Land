@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QPainter>
+#include "globalutils.h"
 
 class cloud : public QObject
 {

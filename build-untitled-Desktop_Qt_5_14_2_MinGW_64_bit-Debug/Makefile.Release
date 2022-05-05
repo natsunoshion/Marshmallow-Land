@@ -139,12 +139,14 @@ release/qrc_images.cpp: ../untitled/images.qrc \
 		../untitled/images/mountain3Shadow.png \
 		../untitled/images/mountain1.png \
 		../untitled/images/androidGrey.png \
+		../untitled/images/sunset.png \
 		../untitled/images/mountain2.png \
 		../untitled/images/mountain3.png \
 		../untitled/images/cactus1Shadow.png \
 		../untitled/images/cactus2Shadow.png \
 		../untitled/images/cactus3Shadow.png \
 		../untitled/images/shadow.png \
+		../untitled/images/cloud_off.png \
 		../untitled/images/moon.png \
 		../untitled/images/android.PNG \
 		../untitled/images/androidRed.png \
@@ -349,6 +351,9 @@ release/moc_cloud.cpp: ../untitled/cloud.h \
 		C:/Qt/Qt5.14.2/5.14.2/mingw73_64/include/QtGui/qfontinfo.h \
 		C:/Qt/Qt5.14.2/5.14.2/mingw73_64/include/QtGui/qfont.h \
 		C:/Qt/Qt5.14.2/5.14.2/mingw73_64/include/QtGui/qfontmetrics.h \
+		../untitled/globalutils.h \
+		C:/Qt/Qt5.14.2/5.14.2/mingw73_64/include/QtCore/QRandomGenerator \
+		C:/Qt/Qt5.14.2/5.14.2/mingw73_64/include/QtCore/qrandom.h \
 		release/moc_predefs.h \
 		C:/Qt/Qt5.14.2/5.14.2/mingw73_64/bin/moc.exe
 	C:\Qt\Qt5.14.2\5.14.2\mingw73_64\bin\moc.exe $(DEFINES) --include F:/test/build-untitled-Desktop_Qt_5_14_2_MinGW_64_bit-Debug/release/moc_predefs.h -IC:/Qt/Qt5.14.2/5.14.2/mingw73_64/mkspecs/win32-g++ -IF:/test/untitled -IC:/Qt/Qt5.14.2/5.14.2/mingw73_64/include -IC:/Qt/Qt5.14.2/5.14.2/mingw73_64/include/QtWidgets -IC:/Qt/Qt5.14.2/5.14.2/mingw73_64/include/QtGui -IC:/Qt/Qt5.14.2/5.14.2/mingw73_64/include/QtANGLE -IC:/Qt/Qt5.14.2/5.14.2/mingw73_64/include/QtCore -I. -IC:/Qt/Qt5.14.2/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++ -IC:/Qt/Qt5.14.2/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Qt5.14.2/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++/backward -IC:/Qt/Qt5.14.2/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include -IC:/Qt/Qt5.14.2/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include-fixed -IC:/Qt/Qt5.14.2/Tools/mingw730_64/x86_64-w64-mingw32/include ..\untitled\cloud.h -o release\moc_cloud.cpp
@@ -773,7 +778,10 @@ release/cloud.o: ../untitled/cloud.cpp ../untitled/cloud.h \
 		C:/Qt/Qt5.14.2/5.14.2/mingw73_64/include/QtGui/qbrush.h \
 		C:/Qt/Qt5.14.2/5.14.2/mingw73_64/include/QtGui/qfontinfo.h \
 		C:/Qt/Qt5.14.2/5.14.2/mingw73_64/include/QtGui/qfont.h \
-		C:/Qt/Qt5.14.2/5.14.2/mingw73_64/include/QtGui/qfontmetrics.h
+		C:/Qt/Qt5.14.2/5.14.2/mingw73_64/include/QtGui/qfontmetrics.h \
+		../untitled/globalutils.h \
+		C:/Qt/Qt5.14.2/5.14.2/mingw73_64/include/QtCore/QRandomGenerator \
+		C:/Qt/Qt5.14.2/5.14.2/mingw73_64/include/QtCore/qrandom.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\cloud.o ..\untitled\cloud.cpp
 
 release/globalutils.o: ../untitled/globalutils.cpp ../untitled/globalutils.h \

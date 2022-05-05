@@ -111,7 +111,7 @@ void MainWindow::init()
     cloudNumber=GlobalUtils::getRandomNum(12)+2;
     for(int i=1;i<=cloudNumber;i++)
     {
-        cloudSpeed[i]=GlobalUtils::getRandomNum((double)1.3)+0.5;
+        cloudSpeed[i]=GlobalUtils::getRandomNum((double)0.8)+0.5;
         xCloud[i]=GlobalUtils::getRandomNum(720);
         //云不能太低
         yCloud[i]=GlobalUtils::getRandomNum(780/3*2);
@@ -231,7 +231,7 @@ void MainWindow::drawCloud()
         {
             if(cloudInstance[i].x<-cloudInstance[i].width)
             {
-                cloudSpeed[i]=GlobalUtils::getRandomNum((double)1.3)+0.5;
+                cloudSpeed[i]=GlobalUtils::getRandomNum((double)0.8)+0.5;
                 //在外边重置
                 xCloud[i]=GlobalUtils::getRandomNum(360,720);
                 //云不能太低
@@ -272,7 +272,11 @@ void MainWindow::drawSun()
         //线性代数知识，翻转矩阵
         painter.setViewport(360, 0, -360, 780);
     }
-    QPixmap sun(":/back/images/sun.png");
+    QPixmap sun;
+    if(mTimeOfDay==SUNSET)
+        sun.load(":/back/images/sunset.png");
+    else
+        sun.load(":/back/images/sun.png");
     painter.drawPixmap(sunOrMoonX,sunOrMoonY,sun);
     //重置画面
     painter.setViewport(0, 0, 360, 780);
@@ -1170,14 +1174,14 @@ bool MainWindow::isCrush()
     if(androidY>780-42)
         return true;
     //与第一对循环棉花糖碰撞
-    if(androidX+42>mmX1+10 && androidX<mmX1+88 && androidY+42>h1+20 && androidY<h1+70)
+    if(androidX+42>mmX1+10 && androidX<mmX1+78 && androidY+42>h1+20 && androidY<h1+70)
         return true;
-    if(androidX+42>mmX1+10 && androidX<mmX1+88 && androidY+42>h1+250+30 && androidY<h1+250+70)
+    if(androidX+42>mmX1+10 && androidX<mmX1+78 && androidY+42>h1+250+30 && androidY<h1+250+70)
         return true;
     //第二对
-    if(androidX+42>mmX2+10 && androidX<mmX2+88 && androidY+42>h2+20 && androidY<h2+70)
+    if(androidX+42>mmX2+10 && androidX<mmX2+78 && androidY+42>h2+20 && androidY<h2+70)
         return true;
-    if(androidX+42>mmX2+10 && androidX<mmX2+88 && androidY+42>h2+250+30 && androidY<h2+250+70)
+    if(androidX+42>mmX2+10 && androidX<mmX2+78 && androidY+42>h2+250+30 && androidY<h2+250+70)
         return true;
     //第一对的杆子相碰
     if(androidX+42>mmX1+(88-6)/2 && androidX<mmX1+(88+6)/2 && androidY<h1)

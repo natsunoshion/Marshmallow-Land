@@ -22,7 +22,11 @@ void cloud::setWidth(int n)
 
 void cloud::setCloud()
 {
-    clou.load(":/back/images/cloud.png");
+    int random=GlobalUtils::getRandomNum(50);
+    if(random==0)
+        clou.load(":/back/images/cloud_off.png");
+    else
+        clou.load(":/back/images/cloud.png");
     clou=clou.scaled(width,width);
 }
 

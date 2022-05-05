@@ -32,5 +32,7 @@
         <file>images/cactus1Shadow.png</file>
         <file>images/play.png</file>
         <file>images/shadow.png</file>
+        <file>images/sunset.png</file>
+        <file>images/cloud_off.png</file>
     </qresource>
 </RCC>
