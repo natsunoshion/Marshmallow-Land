@@ -90,6 +90,12 @@ public:
     int starX[100],starY[100];
     //棉花糖
     QPixmap m1Group1,m2Group1,m1Group2,m2Group2;
+    //物体的重置
+    int isReset=true;
+
+    bool isStartCount=false;
+
+    int countNumber=3;
 
     QPixmap mouth11,mouth12,mouth21,mouth22 ,eyes11,eyes12,eyes21,eyes22;
     //初始化棉花糖的触角朝向
@@ -102,6 +108,8 @@ public:
     int mouthType11,mouthType12,mouthType21,mouthType22;
     //眼睛种类
     int eyesType11,eyesType12,eyesType21,eyesType22;
+    bool isFirstInit=true;
+
     //函数部分开始
     //鼠标按下
     void mousePressEvent(QMouseEvent *event);
@@ -161,12 +169,17 @@ public:
     void startGame();
     //结束游戏
     void stopGame();
+    //真正意义上的开始游戏
+    void initAndroid();
+    void initMm();
+
+    void drawCountNumber();
 
 public slots:
     //循环绘制（定时器）
     void loopPaint();
-    void initAndroid();
-    void initMm();
     void hideButton();
+    //3 2 1开始游戏函数
+    void startCount();
 };
 #endif // MAINWINDOW_H

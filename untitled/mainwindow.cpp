@@ -35,8 +35,6 @@ void MainWindow::init()
     //生成主题
     //时间
     mTimeOfDay=GlobalUtils::getRandomNum(4);
-
-    mTimeOfDay=DAY;
     //场景
     mScene=GlobalUtils::getRandomNum(3);
     isMoon=GlobalUtils::getRandomNum(2);
@@ -100,7 +98,7 @@ void MainWindow::init()
     for(int i=1;i<=mountainNumber;i++)
     {
         mountainType[i]=GlobalUtils::getRandomNum(3);
-        mountainSpeed[i]=GlobalUtils::getRandomNum((double)1.7)+0.1;
+        mountainSpeed[i]=GlobalUtils::getRandomNum((double)1.7);
         x[i]=GlobalUtils::getRandomNum(720);
         w[i]=GlobalUtils::getRandomNum(100,300);
         //初始化图像、宽度、横坐标，注意一定是先初始化宽度
@@ -109,8 +107,8 @@ void MainWindow::init()
         mountainInstance[i].setX(x[i]);
     }
     //初始化云
-    //云依然可以特较多
-    cloudNumber=GlobalUtils::getRandomNum(3,15);
+    //云不会很多
+    cloudNumber=GlobalUtils::getRandomNum(12)+2;
     for(int i=1;i<=cloudNumber;i++)
     {
         cloudSpeed[i]=GlobalUtils::getRandomNum((double)1.3)+0.5;
@@ -136,16 +134,16 @@ void MainWindow::init()
         //初始化图像、宽度、横坐标，注意一定是先初始化宽度
         cactusInstance[i].setWidth(widthCactus[i]);
         cactusInstance[i].setCact(cactusType[i]);
-        cactusInstance[i].setX(x[i]);
+        cactusInstance[i].setX(xCactus[i]);
     }
     //保持update
     connect(timer,SIGNAL(timeout()),this,SLOT(loopPaint()));
     //按下按键开始游戏
-    connect(play,SIGNAL(clicked()),this,SLOT(initAndroid()));
-    connect(play,SIGNAL(clicked()),this,SLOT(initMm()));
+    connect(play,SIGNAL(clicked()),this,SLOT(startCount()));
     connect(play,SIGNAL(clicked()),this,SLOT(hideButton()));
     //检测画面方向，每死一次改变一次方向，防止玩家视觉疲劳
     isFlipped=!isFlipped;
+    //开局先跳一下
     initSpeed();
 }
 //山
@@ -163,6 +161,21 @@ void MainWindow::drawMountain()
         mountainInstance[i].x-=mountainSpeed[i];
         //重置透明度，防止下次实例被设置为透明
         painter.setOpacity(1.0);
+
+        if(isReset)
+        {
+            if(mountainInstance[i].x<-mountainInstance[i].width)
+            {
+                mountainType[i]=GlobalUtils::getRandomNum(3);
+                mountainSpeed[i]=GlobalUtils::getRandomNum((double)1.7);
+                x[i]=GlobalUtils::getRandomNum(360,720);
+                w[i]=GlobalUtils::getRandomNum(100,300);
+                //初始化图像、宽度、横坐标，注意一定是先初始化宽度
+                mountainInstance[i].setWidth(w[i]);
+                mountainInstance[i].setMoun(mountainType[i]);
+                mountainInstance[i].setX(x[i]);
+            }
+        }
     }
     painter.setViewport(0, 0, 360, 780);
 }
@@ -180,6 +193,22 @@ void MainWindow::drawCactus()
         cactusInstance[i].drawShadow(painter,(double)(1.0-(double)(i-1.0)/(double)(cactusNumber-1.0)));
         cactusInstance[i].x-=cactusSpeed[i];
         painter.setOpacity(1.0);
+
+        if(isReset)
+        {
+            if(cactusInstance[i].x<-cactusInstance[i].width)
+            {
+                cactusType[i]=GlobalUtils::getRandomNum(3);
+                cactusSpeed[i]=GlobalUtils::getRandomNum((double)1.7)+0.1;
+                xCactus[i]=GlobalUtils::getRandomNum(360,720);
+                //仙人掌比较小
+                widthCactus[i]=GlobalUtils::getRandomNum(70,150);
+                //初始化图像、宽度、横坐标，注意一定是先初始化宽度
+                cactusInstance[i].setWidth(widthCactus[i]);
+                cactusInstance[i].setCact(cactusType[i]);
+                cactusInstance[i].setX(xCactus[i]);
+            }
+        }
     }
     painter.setViewport(0, 0, 360, 780);
 }
@@ -197,6 +226,23 @@ void MainWindow::drawCloud()
     {
         cloudInstance[i].draw(painter);
         cloudInstance[i].x-=cloudSpeed[i];
+
+        if(isReset)
+        {
+            if(cloudInstance[i].x<-cloudInstance[i].width)
+            {
+                cloudSpeed[i]=GlobalUtils::getRandomNum((double)1.3)+0.5;
+                //在外边重置
+                xCloud[i]=GlobalUtils::getRandomNum(360,720);
+                //云不能太低
+                yCloud[i]=GlobalUtils::getRandomNum(780/3*2);
+                widthCloud[i]=GlobalUtils::getRandomNum(50,100);
+                cloudInstance[i].setX(xCloud[i]);
+                cloudInstance[i].setY(yCloud[i]);
+                cloudInstance[i].setWidth(widthCloud[i]);
+                cloudInstance[i].setCloud();
+            }
+        }
     }
     painter.setViewport(0, 0, 360, 780);
 }
@@ -294,6 +340,7 @@ void MainWindow::paintEvent(QPaintEvent *)
         drawShadowPause();
         drawCircle();
     }
+    drawCountNumber();
     //屏幕正中间的分数图标
     drawScore();
 }
@@ -352,9 +399,9 @@ void MainWindow::drawAndroid()
     {
         androidStatus=AndroidStatus::UP;
         initSpeed();
-        //如果游戏结束，重置游戏，可以改进
-        if(gameStatus==STOPING)
-            init();
+        //保持能够按鼠标复活
+        if(gameStatus==GameStatus::STOPING)
+            startCount();
         //旋转角度重置为45度
         imageAngle=45;
         //重置角加速度
@@ -432,6 +479,8 @@ void MainWindow::drawShadowPause()
     painter.setOpacity(0.63);
     QPixmap shadow(":/back/images/shadow.png");
     painter.drawPixmap(0,0,shadow);
+    //重置painter
+    painter.setOpacity(1.0);
 }
 //第一个循环棉花糖
 void MainWindow::drawMm1()
@@ -1056,6 +1105,8 @@ void MainWindow::loopPaint()
 void MainWindow::initAndroid()
 {
     startAndroid=true;
+    //开始游戏之后山云仙人掌就不重置了
+    isReset=false;
 }
 
 void MainWindow::initMm()
@@ -1063,15 +1114,54 @@ void MainWindow::initMm()
     startMm=true;
 }
 
+void MainWindow::drawCountNumber()
+{
+    QPainter painter(this);
+    if(isStartCount)
+    {
+        QFont font( "Microsoft JhengHei", 20, 70);
+        painter.setFont(font);
+
+        painter.setPen(Qt::black);
+        painter.drawText(QRectF((360-72)/2,(780-72)/2,72,72),Qt::AlignCenter,QString::number(countNumber));
+    }
+}
+
 void MainWindow::hideButton()
 {
     play->setVisible(false);
     play->setEnabled(false);
 }
+
+void MainWindow::startCount()
+{
+    countNumber=3;
+    startAndroid=startMm=false;
+    isStartCount=true;
+    if(!isFirstInit)
+        init();
+    //优化版定时器，省去槽函数
+    QTimer::singleShot(400,this,[=]{
+        countNumber=2;
+    });
+    QTimer::singleShot(800,this,[=]{
+        countNumber=1;
+    });
+    QTimer::singleShot(1200,this,[=]{
+        countNumber=0;
+    });
+    QTimer::singleShot(1500,this,[=]{
+        countNumber=0;
+        initAndroid();
+        initMm();
+        isStartCount=false;
+    });
+    isFirstInit=false;
+}
 //向上的初速度
 void MainWindow::initSpeed()
  {
-     androidUpSpeed=6;
+     androidUpSpeed=6.3;
  }
 //自己写碰撞检测
 bool MainWindow::isCrush()
