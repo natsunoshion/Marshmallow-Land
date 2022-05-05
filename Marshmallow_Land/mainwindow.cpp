@@ -408,8 +408,6 @@ void MainWindow::drawAndroid()
             startCount();
         //旋转角度重置为45度
         imageAngle=45;
-        //重置角加速度
-        a=0;
     }
     //绘制事件
     QPainter painter(this);
@@ -435,7 +433,7 @@ void MainWindow::drawAndroid()
     //下降
     if(androidStatus==AndroidStatus::DOWN)
     {
-        androidUpSpeed-=0.35;
+        androidUpSpeed-=0.375;
         androidY-=androidUpSpeed;
         if(androidY>780-42)
             androidY=780-42;
@@ -444,7 +442,7 @@ void MainWindow::drawAndroid()
     if(androidStatus == AndroidStatus::UP)
     {
         androidY-=androidUpSpeed;
-        androidUpSpeed-=0.35;
+        androidUpSpeed-=0.375;
         //速度降为0后开始下落
         if(androidUpSpeed<=0)
         {
@@ -452,8 +450,7 @@ void MainWindow::drawAndroid()
         }
     }
 
-    a+=0.1;
-    imageAngle+=a;
+    imageAngle+=2.5;
 
     if(imageAngle>180)
         imageAngle=180;

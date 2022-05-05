@@ -53,8 +53,6 @@ public:
     bool isScoreMm1,isScoreMm2;
     //安卓小人旋转的角度
     double imageAngle=30;
-    //角加速度
-    double a=0;
     //鼠标按键检测，默认没按
     bool isPressed=false;
     bool isFlipped=true;
