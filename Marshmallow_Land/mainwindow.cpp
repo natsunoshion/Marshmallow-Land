@@ -135,7 +135,7 @@ void MainWindow::init()
     for(int i=1;i<=cactusNumber;i++)
     {
         cactusType[i]=GlobalUtils::getRandomNum(3);
-        cactusSpeed[i]=GlobalUtils::getRandomNum((double)0.7)+0.1;
+        cactusSpeed[i]=GlobalUtils::getRandomNum((double)1.7)+0.1;
         xCactus[i]=GlobalUtils::getRandomNum(720);
         //仙人掌比较小
         widthCactus[i]=GlobalUtils::getRandomNum(70,150);
@@ -148,7 +148,7 @@ void MainWindow::init()
     buildingNumber=GlobalUtils::getRandomNum(13,17);
     for(int i=1;i<=buildingNumber;i++)
     {
-        buildingSpeed[i]=GlobalUtils::getRandomNum((double)0.7)+0.1;
+        buildingSpeed[i]=GlobalUtils::getRandomNum((double)0.8);
         xBuilding[i]=GlobalUtils::getRandomNum(720);
         widthBuilding[i]=GlobalUtils::getRandomNum(60,180);
         heightBuilding[i]=GlobalUtils::getRandomNum(120);
