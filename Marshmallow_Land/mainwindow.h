@@ -183,7 +183,7 @@ public:
     //真正意义上的开始游戏
     void initAndroid();
     void initMm();
-
+    //倒计时
     void drawCountNumber();
 
 public slots:

@@ -330,7 +330,7 @@ void MainWindow::drawCloud()
     }
     painter.setViewport(0, 0, 360, 780);
 }
-
+//星星
 void MainWindow::drawStar()
 {
     QPainter painter(this);
@@ -346,7 +346,7 @@ void MainWindow::drawStar()
     }
     painter.setViewport(0, 0, 360, 780);
 }
-
+//太阳
 void MainWindow::drawSun()
 {
     QPainter painter(this);
@@ -365,7 +365,7 @@ void MainWindow::drawSun()
     //重置画面
     painter.setViewport(0, 0, 360, 780);
 }
-
+//月亮
 void MainWindow::drawMoon()
 {
     QPainter painter(this);
@@ -383,7 +383,7 @@ void MainWindow::drawMoon()
     //重置画面
     painter.setViewport(0, 0, 360, 780);
 }
-
+//建筑物
 void MainWindow::drawBuilding()
 {
     QPainter painter(this);
@@ -421,7 +421,7 @@ void MainWindow::mousePressEvent(QMouseEvent *)
     isPressed=true;
     update();
 }
-
+//鼠标松开
 void MainWindow::mouseReleaseEvent(QMouseEvent *)
 {
     isPressed=false;
@@ -586,7 +586,7 @@ void MainWindow::drawAndroid()
     //重置
     painter.setViewport(0, 0, 360, 780);
 }
-
+//绘制开始界面的圆形
 void MainWindow::drawCircle()
 {
     QPainter painter(this);
@@ -595,7 +595,7 @@ void MainWindow::drawCircle()
     QBrush brush(QColor(170,170,170));
     painter.fillPath(path,brush);
 }
-
+//绘制未开始游戏时背景的阴影
 void MainWindow::drawShadowPause()
 {
     QPainter painter(this);
