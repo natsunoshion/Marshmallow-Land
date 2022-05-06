@@ -36,7 +36,7 @@ void MainWindow::init()
     //时间
     mTimeOfDay=GlobalUtils::getRandomNum(4);
     //场景
-    mScene=GlobalUtils::getRandomNum(3);
+    mScene=GlobalUtils::getRandomNum(4);
     isMoon=GlobalUtils::getRandomNum(2);
     isSun=GlobalUtils::getRandomNum(2);
     isStar=GlobalUtils::getRandomNum(2);
@@ -58,10 +58,18 @@ void MainWindow::init()
         isMountain=true;
         //清除上次的状态
         isCactus=false;
+        isBuilding=false;
     }
     if(mScene==SCENE_TX)
     {
         isCactus=true;
+        isMountain=false;
+        isBuilding=false;
+    }
+    if(mScene==SCENE_CITY)
+    {
+        isBuilding=true;
+        isCactus=false;
         isMountain=false;
     }
     //初始化窗口大小
@@ -127,7 +135,7 @@ void MainWindow::init()
     for(int i=1;i<=cactusNumber;i++)
     {
         cactusType[i]=GlobalUtils::getRandomNum(3);
-        cactusSpeed[i]=GlobalUtils::getRandomNum((double)1.7)+0.1;
+        cactusSpeed[i]=GlobalUtils::getRandomNum((double)0.7)+0.1;
         xCactus[i]=GlobalUtils::getRandomNum(720);
         //仙人掌比较小
         widthCactus[i]=GlobalUtils::getRandomNum(70,150);
@@ -135,6 +143,19 @@ void MainWindow::init()
         cactusInstance[i].setWidth(widthCactus[i]);
         cactusInstance[i].setCact(cactusType[i]);
         cactusInstance[i].setX(xCactus[i]);
+    }
+    //初始化建筑物
+    buildingNumber=GlobalUtils::getRandomNum(13,17);
+    for(int i=1;i<=buildingNumber;i++)
+    {
+        buildingSpeed[i]=GlobalUtils::getRandomNum((double)0.7)+0.1;
+        xBuilding[i]=GlobalUtils::getRandomNum(720);
+        widthBuilding[i]=GlobalUtils::getRandomNum(60,180);
+        heightBuilding[i]=GlobalUtils::getRandomNum(120);
+
+        buildingInstance[i].setWidth(widthBuilding[i]);
+        buildingInstance[i].setHeight(heightBuilding[i]);
+        buildingInstance[i].setX(xBuilding[i]);
     }
     //保持update
     connect(timer,SIGNAL(timeout()),this,SLOT(loopPaint()));
@@ -299,6 +320,36 @@ void MainWindow::drawMoon()
     //重置画面
     painter.setViewport(0, 0, 360, 780);
 }
+
+void MainWindow::drawBuilding()
+{
+    QPainter painter(this);
+    if(isFlipped)
+    {
+        painter.setViewport(360, 0, -360, 780);
+    }
+    for(int i=1;i<=buildingNumber;i++)
+    {
+        buildingInstance[i].draw(painter);
+        buildingInstance[i].drawShadow(painter,(double)(1.0-(double)(i-1.0)/(double)(buildingNumber-1.0)));
+        buildingInstance[i].x-=buildingSpeed[i];
+
+        if(isReset)
+        {
+            if(buildingInstance[i].x<-buildingInstance[i].width)
+            {
+                buildingSpeed[i]=GlobalUtils::getRandomNum((double)1.7)+0.1;
+                xBuilding[i]=GlobalUtils::getRandomNum(360,720);
+                //仙人掌比较小
+                widthBuilding[i]=GlobalUtils::getRandomNum(70,150);
+                //初始化图像、宽度、横坐标，注意一定是先初始化宽度
+                buildingInstance[i].setWidth(widthBuilding[i]);
+                buildingInstance[i].setX(xBuilding[i]);
+            }
+        }
+    }
+    painter.setViewport(0, 0, 360, 780);
+}
 //鼠标点击一次刷新初速度
 void MainWindow::mousePressEvent(QMouseEvent *)
 {
@@ -330,6 +381,10 @@ void MainWindow::paintEvent(QPaintEvent *)
         drawMountain();
     if(isCactus)
         drawCactus();
+    if(isBuilding)
+        drawBuilding();
+    if(isBuilding)
+        drawBuilding();
     if(isCloud)
         drawCloud();
     if(startAndroid)

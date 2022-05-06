@@ -10,6 +10,7 @@
 #include "mountain.h"
 #include "cloud.h"
 #include "cactus.h"
+#include "building.h"
 
 class MainWindow : public QMainWindow
 {
@@ -25,7 +26,7 @@ public:
     int mScene;
     int DAY=0, NIGHT=1, TWILIGHT=2, SUNSET=3;
     int SCENE_ZRH=0,SCENE_TX=1,SCENE_CITY=2;
-    bool isMountain=0,isCactus=0;
+    bool isMountain=0,isCactus=0,isBuilding=0;
     bool isSun=0,isMoon=0,isStar=0,isCloud=0;
     //安卓横纵坐标
     double androidX;
@@ -76,6 +77,13 @@ public:
     double xCactus[100];
     int widthCactus[100];
     double cactusSpeed[100];
+    //建筑物
+    int buildingNumber=0;
+    building buildingInstance[100];
+    int heightBuilding[100];
+    double xBuilding[100];
+    int widthBuilding[100];
+    double buildingSpeed[100];
     //云
     int cloudNumber=0;
     cloud cloudInstance[100];
@@ -148,6 +156,8 @@ public:
     void drawSun();
     //月亮
     void drawMoon();
+    //建筑物
+    void drawBuilding();
     //棉花糖
     void drawMm1();
     void drawMm2();

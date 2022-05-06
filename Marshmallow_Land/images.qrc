@@ -34,5 +34,7 @@
         <file>images/shadow.png</file>
         <file>images/sunset.png</file>
         <file>images/cloud_off.png</file>
+        <file>images/building.png</file>
+        <file>images/buildingShadow.png</file>
     </qresource>
 </RCC>
