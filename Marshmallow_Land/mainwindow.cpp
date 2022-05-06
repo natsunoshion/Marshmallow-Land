@@ -148,7 +148,7 @@ void MainWindow::init()
     buildingNumber=GlobalUtils::getRandomNum(13,17);
     for(int i=1;i<=buildingNumber;i++)
     {
-        buildingSpeed[i]=GlobalUtils::getRandomNum((double)0.8);
+        buildingSpeed[i]=GlobalUtils::getRandomNum((double)1.7)+0.1;
         xBuilding[i]=GlobalUtils::getRandomNum(720);
         widthBuilding[i]=GlobalUtils::getRandomNum(60,180);
         heightBuilding[i]=GlobalUtils::getRandomNum(120);
@@ -381,8 +381,6 @@ void MainWindow::paintEvent(QPaintEvent *)
         drawMountain();
     if(isCactus)
         drawCactus();
-    if(isBuilding)
-        drawBuilding();
     if(isBuilding)
         drawBuilding();
     if(isCloud)

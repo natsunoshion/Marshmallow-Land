@@ -6,6 +6,7 @@
 #include <QTimer>
 #include <QLabel>
 #include <QKeyEvent>
+#include <QSound>
 #include "globalutils.h"
 #include "mountain.h"
 #include "cloud.h"
