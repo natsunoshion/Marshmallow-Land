@@ -8,6 +8,15 @@ MainWindow::MainWindow(QWidget *parent)
 {
     //每次打开游戏，主题颜色只生成一次，之后不会变化
     themeColor=GlobalUtils::getRandomNum(6);
+    //游戏一打开，播放音乐
+    QMediaPlaylist *musicList = new QMediaPlaylist(this);  //添加音乐列表
+    musicList->addMedia(QUrl("qrc:/data/music/The History.mp3"));  //添加音乐列表
+
+    QMediaPlayer *soundPlayer = new QMediaPlayer(this);  //创建音乐播放器
+    soundPlayer->setPlaylist(musicList);  //设置音乐列表
+    soundPlayer->play();
+    musicList->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);  //循环播放
+    //这样就可以单首音乐循环播放
     //初始化
     init();
 }
@@ -150,7 +159,7 @@ void MainWindow::init()
     {
         buildingSpeed[i]=GlobalUtils::getRandomNum((double)1.7)+0.1;
         xBuilding[i]=GlobalUtils::getRandomNum(720);
-        widthBuilding[i]=GlobalUtils::getRandomNum(60,180);
+        widthBuilding[i]=GlobalUtils::getRandomNum(60,240);
         heightBuilding[i]=GlobalUtils::getRandomNum(120);
 
         buildingInstance[i].setWidth(widthBuilding[i]);
@@ -179,7 +188,8 @@ void MainWindow::drawMountain()
     {
         mountainInstance[i].draw(painter);
         mountainInstance[i].drawShadow(painter,(double)(1.0-(double)(i-1)/(double)(mountainNumber-1.0)));
-        mountainInstance[i].x-=mountainSpeed[i];
+        if(gameStatus==RUNNING)
+            mountainInstance[i].x-=mountainSpeed[i];
         //重置透明度，防止下次实例被设置为透明
         painter.setOpacity(1.0);
 
@@ -212,7 +222,8 @@ void MainWindow::drawCactus()
     {
         cactusInstance[i].draw(painter);
         cactusInstance[i].drawShadow(painter,(double)(1.0-(double)(i-1.0)/(double)(cactusNumber-1.0)));
-        cactusInstance[i].x-=cactusSpeed[i];
+        if(gameStatus==RUNNING)
+            cactusInstance[i].x-=cactusSpeed[i];
         painter.setOpacity(1.0);
 
         if(isReset)
@@ -246,7 +257,8 @@ void MainWindow::drawCloud()
     for(int i=1;i<=cloudNumber;i++)
     {
         cloudInstance[i].draw(painter);
-        cloudInstance[i].x-=cloudSpeed[i];
+        if(gameStatus==RUNNING)
+            cloudInstance[i].x-=cloudSpeed[i];
 
         if(isReset)
         {
@@ -332,7 +344,8 @@ void MainWindow::drawBuilding()
     {
         buildingInstance[i].draw(painter);
         buildingInstance[i].drawShadow(painter,(double)(1.0-(double)(i-1.0)/(double)(buildingNumber-1.0)));
-        buildingInstance[i].x-=buildingSpeed[i];
+        if(gameStatus==RUNNING)
+            buildingInstance[i].x-=buildingSpeed[i];
 
         if(isReset)
         {
@@ -484,15 +497,15 @@ void MainWindow::drawAndroid()
     android=android.scaled(42,42);
 
     //下降
-    if(androidStatus==AndroidStatus::DOWN)
+    if(androidStatus==AndroidStatus::DOWN && gameStatus==RUNNING)
     {
-        androidUpSpeed-=0.375;
         androidY-=androidUpSpeed;
+        androidUpSpeed-=0.375;
         if(androidY>780-42)
             androidY=780-42;
     }
     //上升
-    if(androidStatus == AndroidStatus::UP)
+    if(androidStatus == AndroidStatus::UP && gameStatus==RUNNING)
     {
         androidY-=androidUpSpeed;
         androidUpSpeed-=0.375;
@@ -502,8 +515,8 @@ void MainWindow::drawAndroid()
             androidStatus=AndroidStatus::DOWN;
         }
     }
-
-    imageAngle+=2.5;
+    if(gameStatus==RUNNING)
+        imageAngle+=2.5;
 
     if(imageAngle>180)
         imageAngle=180;
@@ -1160,19 +1173,19 @@ void MainWindow::loopPaint()
 {
     update();
 }
-
+//开始绘画安卓
 void MainWindow::initAndroid()
 {
     startAndroid=true;
     //开始游戏之后山云仙人掌就不重置了
     isReset=false;
 }
-
+//开始绘画棉花糖
 void MainWindow::initMm()
 {
     startMm=true;
 }
-
+//绘画倒计时
 void MainWindow::drawCountNumber()
 {
     QPainter painter(this);
@@ -1185,13 +1198,13 @@ void MainWindow::drawCountNumber()
         painter.drawText(QRectF((360-72)/2,(780-72)/2,72,72),Qt::AlignCenter,QString::number(countNumber));
     }
 }
-
+//隐藏开始键
 void MainWindow::hideButton()
 {
     play->setVisible(false);
     play->setEnabled(false);
 }
-
+//开始倒计时
 void MainWindow::startCount()
 {
     countNumber=3;

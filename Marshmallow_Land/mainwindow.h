@@ -6,7 +6,8 @@
 #include <QTimer>
 #include <QLabel>
 #include <QKeyEvent>
-#include <QSound>
+#include <QMediaPlaylist>
+#include <QMediaPlayer>
 #include "globalutils.h"
 #include "mountain.h"
 #include "cloud.h"
@@ -99,11 +100,11 @@ public:
     QPixmap m1Group1,m2Group1,m1Group2,m2Group2;
     //物体的重置
     int isReset=true;
-
+    //开始倒计时
     bool isStartCount=false;
-
+    //倒计时
     int countNumber=3;
-
+    //表情
     QPixmap mouth11,mouth12,mouth21,mouth22 ,eyes11,eyes12,eyes21,eyes22;
     //初始化棉花糖的触角朝向
     bool isInitMm11=true,isInitMm12=true,isInitMm21=true,isInitMm22=true;
