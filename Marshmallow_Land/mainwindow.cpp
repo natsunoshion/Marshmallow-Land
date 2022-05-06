@@ -8,6 +8,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     //每次打开游戏，主题颜色只生成一次，之后不会变化
     themeColor=GlobalUtils::getRandomNum(6);
+
     //游戏一打开，播放音乐
     QMediaPlaylist *musicList = new QMediaPlaylist(this);  //添加音乐列表
     musicList->addMedia(QUrl("qrc:/data/music/The History.mp3"));  //添加音乐列表
@@ -17,6 +18,56 @@ MainWindow::MainWindow(QWidget *parent)
     soundPlayer->play();
     musicList->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);  //循环播放
     //这样就可以单首音乐循环播放
+
+    //根据系统时间获取二次元音效
+    QTime t=QTime::currentTime();
+    qDebug()<<t.hour();
+    if((t.hour()<=3 && t.hour()>=0) || (t.hour()>=22 && t.hour()<=23))
+    {
+        QMediaPlaylist *voice = new QMediaPlaylist(this);  //添加音乐列表
+        voice->addMedia(QUrl("qrc:/data/music/night.mp3"));  //添加音乐列表
+
+        QMediaPlayer *voicePlayer = new QMediaPlayer(this);  //创建音乐播放器
+        voicePlayer->setPlaylist(voice);  //设置音乐列表
+        voicePlayer->play();
+    }
+    if(t.hour()<=9 && t.hour()>=4)
+    {
+        QMediaPlaylist *voice = new QMediaPlaylist(this);  //添加音乐列表
+        voice->addMedia(QUrl("qrc:/data/music/morning.mp3"));  //添加音乐列表
+
+        QMediaPlayer *voicePlayer = new QMediaPlayer(this);  //创建音乐播放器
+        voicePlayer->setPlaylist(voice);  //设置音乐列表
+        voicePlayer->play();
+    }
+    if(t.hour()<=14 && t.hour()>=10)
+    {
+        QMediaPlaylist *voice = new QMediaPlaylist(this);  //添加音乐列表
+        voice->addMedia(QUrl("qrc:/data/music/come.mp3"));  //添加音乐列表
+
+        QMediaPlayer *voicePlayer = new QMediaPlayer(this);  //创建音乐播放器
+        voicePlayer->setPlaylist(voice);  //设置音乐列表
+        voicePlayer->play();
+    }
+    if(t.hour()<=17 && t.hour()>=14)
+    {
+        QMediaPlaylist *voice = new QMediaPlaylist(this);  //添加音乐列表
+        voice->addMedia(QUrl("qrc:/data/music/afternoon.mp3"));  //添加音乐列表
+
+        QMediaPlayer *voicePlayer = new QMediaPlayer(this);  //创建音乐播放器
+        voicePlayer->setPlaylist(voice);  //设置音乐列表
+        voicePlayer->play();
+    }
+    if(t.hour()<=21 && t.hour()>=18)
+    {
+        QMediaPlaylist *voice = new QMediaPlaylist(this);  //添加音乐列表
+        voice->addMedia(QUrl("qrc:/data/music/evening.mp3"));  //添加音乐列表
+
+        QMediaPlayer *voicePlayer = new QMediaPlayer(this);  //创建音乐播放器
+        voicePlayer->setPlaylist(voice);  //设置音乐列表
+        voicePlayer->play();
+    }
+
     //初始化
     init();
 }
@@ -110,8 +161,8 @@ void MainWindow::init()
     sunOrMoonX=GlobalUtils::getRandomNum(20,340);
     sunOrMoonY=GlobalUtils::getRandomNum(20,760);
     //初始化山
-    //山的数量，随机产生，上限为8
-    mountainNumber=GlobalUtils::getRandomNum(6)+3;
+    //山的数量，随机产生，上限为15
+    mountainNumber=GlobalUtils::getRandomNum(5,15);
     for(int i=1;i<=mountainNumber;i++)
     {
         mountainType[i]=GlobalUtils::getRandomNum(3);
@@ -132,7 +183,7 @@ void MainWindow::init()
         xCloud[i]=GlobalUtils::getRandomNum(720);
         //云不能太低
         yCloud[i]=GlobalUtils::getRandomNum(780/3*2);
-        widthCloud[i]=GlobalUtils::getRandomNum(50,100);
+        widthCloud[i]=GlobalUtils::getRandomNum(15,100);
         cloudInstance[i].setX(xCloud[i]);
         cloudInstance[i].setY(yCloud[i]);
         cloudInstance[i].setWidth(widthCloud[i]);
@@ -140,7 +191,7 @@ void MainWindow::init()
     }
     //初始化仙人掌
     //仙人掌比较多
-    cactusNumber=GlobalUtils::getRandomNum(7,10);
+    cactusNumber=GlobalUtils::getRandomNum(5,15);
     for(int i=1;i<=cactusNumber;i++)
     {
         cactusType[i]=GlobalUtils::getRandomNum(3);
@@ -269,7 +320,7 @@ void MainWindow::drawCloud()
                 xCloud[i]=GlobalUtils::getRandomNum(360,720);
                 //云不能太低
                 yCloud[i]=GlobalUtils::getRandomNum(780/3*2);
-                widthCloud[i]=GlobalUtils::getRandomNum(50,100);
+                widthCloud[i]=GlobalUtils::getRandomNum(15,100);
                 cloudInstance[i].setX(xCloud[i]);
                 cloudInstance[i].setY(yCloud[i]);
                 cloudInstance[i].setWidth(widthCloud[i]);

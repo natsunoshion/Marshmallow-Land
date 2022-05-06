@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QPushButton>
 #include <QTimer>
+#include <QTime>
 #include <QLabel>
 #include <QKeyEvent>
 #include <QMediaPlaylist>
