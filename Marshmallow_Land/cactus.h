@@ -10,6 +10,7 @@ class cactus : public QObject
 public:
     explicit cactus(QObject *parent = nullptr);
     QPixmap cact,cactShadow;
+
     //横纵初始坐标
     double x;
     int width;

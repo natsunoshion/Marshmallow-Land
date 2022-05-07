@@ -8,6 +8,7 @@ class GlobalUtils
 {
 public:
     GlobalUtils();
+
     //获取随机数
     static int getRandomNum(int limit);
     static int getRandomNum(int lowest,int highest);

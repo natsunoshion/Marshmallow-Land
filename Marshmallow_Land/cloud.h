@@ -11,6 +11,7 @@ class cloud : public QObject
 public:
     explicit cloud(QObject *parent = nullptr);
     QPixmap clou;
+
     //横纵初始坐标
     double x;
     int y,width;

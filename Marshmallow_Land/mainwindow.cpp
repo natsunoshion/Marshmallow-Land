@@ -3,7 +3,7 @@
 #include <QPainter>
 #include <QDebug>
 
-//构造函数就写一个初始化函数
+//构造函数
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
@@ -91,7 +91,8 @@ void MainWindow::init()
 
     //窗口图标
     this->setWindowIcon(QIcon(":/back/images/m_icon.png"));
-    //设置图标
+
+    //设置开始界面图标
     play->setIcon(icon);
     play->setLayoutDirection(Qt::LeftToRight);
     play->setFlat(true);
@@ -100,23 +101,29 @@ void MainWindow::init()
     play->move((360-48)/2,(780-48)/2);
 
     //生成主题
+
     //时间
     mTimeOfDay=GlobalUtils::getRandomNum(4);
+
     //场景
     mScene=GlobalUtils::getRandomNum(4);
     isMoon=GlobalUtils::getRandomNum(2);
     isSun=GlobalUtils::getRandomNum(2);
     isStar=GlobalUtils::getRandomNum(2);
     isCloud=GlobalUtils::getRandomNum(2);
+
     //白天没有星星，但是可以有月亮（咦？
     if(mTimeOfDay==DAY)
         isStar=false;
+
     //晚上没有太阳
     if(mTimeOfDay==TWILIGHT || mTimeOfDay==NIGHT)
         isSun=false;
+
     //太阳和月亮不同时出现
     if(isSun)
         isMoon=false;
+
     //深夜一定有星星
     if(mTimeOfDay==NIGHT)
         isStar=true;
@@ -142,6 +149,7 @@ void MainWindow::init()
 
     //初始化窗口大小
     this->setFixedSize(360,780);
+
     //初始化坐标以及相关数据
     mmX1=360;
     mmX2=360+301;
@@ -155,9 +163,11 @@ void MainWindow::init()
 
     //开始游戏
     startGame();
+
     //第一组棉花糖的随机数
     h1=GlobalUtils::getRandomNum(780-200-220);
     h2=GlobalUtils::getRandomNum(780-200-220);
+
     //初始星星坐标
     //星星一般不会太少
     starNumber=GlobalUtils::getRandomNum(3,10);
@@ -166,9 +176,11 @@ void MainWindow::init()
         starX[i]=GlobalUtils::getRandomNum(360);
         starY[i]=GlobalUtils::getRandomNum(780);
     }
+
     //初始化太阳/月亮坐标
     sunOrMoonX=GlobalUtils::getRandomNum(20,340);
     sunOrMoonY=GlobalUtils::getRandomNum(20,760);
+
     //初始化山
     //山的数量，随机产生，上限为15
     mountainNumber=GlobalUtils::getRandomNum(5,15);
@@ -183,6 +195,7 @@ void MainWindow::init()
         mountainInstance[i].setMoun(mountainType[i]);
         mountainInstance[i].setX(x[i]);
     }
+
     //初始化云
     //云不会很多
     cloudNumber=GlobalUtils::getRandomNum(12)+2;
@@ -198,6 +211,7 @@ void MainWindow::init()
         cloudInstance[i].setWidth(widthCloud[i]);
         cloudInstance[i].setCloud();
     }
+
     //初始化仙人掌
     //仙人掌比较多
     cactusNumber=GlobalUtils::getRandomNum(5,15);
@@ -213,6 +227,7 @@ void MainWindow::init()
         cactusInstance[i].setCact(cactusType[i]);
         cactusInstance[i].setX(xCactus[i]);
     }
+
     //初始化建筑物
     buildingNumber=GlobalUtils::getRandomNum(13,17);
     for(int i=1;i<=buildingNumber;i++)
@@ -226,13 +241,16 @@ void MainWindow::init()
         buildingInstance[i].setHeight(heightBuilding[i]);
         buildingInstance[i].setX(xBuilding[i]);
     }
+
     //保持update
     connect(timer,SIGNAL(timeout()),this,SLOT(loopPaint()));
     //按下按键开始游戏
     connect(play,SIGNAL(clicked()),this,SLOT(startCount()));
     connect(play,SIGNAL(clicked()),this,SLOT(hideButton()));
+
     //检测画面方向，每死一次改变一次方向，防止玩家视觉疲劳
     isFlipped=!isFlipped;
+
     //开局先跳一下
     initSpeed();
 }
@@ -241,6 +259,9 @@ void MainWindow::init()
 void MainWindow::drawMountain()
 {
     QPainter painter(this);
+
+    painter.setRenderHint(QPainter::SmoothPixmapTransform);
+
     if(isFlipped)
     {
         painter.setViewport(360, 0, -360, 780);
@@ -276,6 +297,9 @@ void MainWindow::drawMountain()
 void MainWindow::drawCactus()
 {
     QPainter painter(this);
+
+    painter.setRenderHint(QPainter::SmoothPixmapTransform);
+
     if(isFlipped)
     {
         painter.setViewport(360, 0, -360, 780);
@@ -311,6 +335,9 @@ void MainWindow::drawCactus()
 void MainWindow::drawCloud()
 {
     QPainter painter(this);
+
+    painter.setRenderHint(QPainter::SmoothPixmapTransform);
+
     //设置透明度
     painter.setOpacity(0.5);
     if(isFlipped)
@@ -347,6 +374,9 @@ void MainWindow::drawCloud()
 void MainWindow::drawStar()
 {
     QPainter painter(this);
+
+    painter.setRenderHint(QPainter::SmoothPixmapTransform);
+
     if(isFlipped)
     {
         painter.setViewport(360, 0, -360, 780);
@@ -364,6 +394,9 @@ void MainWindow::drawStar()
 void MainWindow::drawSun()
 {
     QPainter painter(this);
+
+    painter.setRenderHint(QPainter::SmoothPixmapTransform);
+
     //翻转画面
     if(isFlipped)
     {
@@ -384,6 +417,9 @@ void MainWindow::drawSun()
 void MainWindow::drawMoon()
 {
     QPainter painter(this);
+
+    painter.setRenderHint(QPainter::SmoothPixmapTransform);
+
     //如果是在白天或者日落，减小月亮的透明度
     if(mTimeOfDay==DAY || mTimeOfDay==SUNSET)
         painter.setOpacity(0.75);
@@ -451,36 +487,48 @@ void MainWindow::paintEvent(QPaintEvent *)
 {
     //画图，先画的显示在底层
     drawBack();
+
     //画不画太阳
     if(isSun)
         drawSun();
+
     //画不画月亮
     if(isMoon)
         drawMoon();
+
     //画！
     if(isStar)
         drawStar();
+
     if(isMountain)
         drawMountain();
+
     if(isCactus)
         drawCactus();
+
     if(isBuilding)
         drawBuilding();
+
     if(isCloud)
         drawCloud();
+
     if(startAndroid)
         drawAndroid();
+
     if(startMm)
     {
         drawMm1();
         drawMm2();
     }
+
     if(!startAndroid)
     {
         drawShadowPause();
         drawCircle();
     }
+
     drawCountNumber();
+
     //屏幕正中间的分数图标
     drawScore();
 }
@@ -548,6 +596,10 @@ void MainWindow::drawAndroid()
     }
     //绘制事件
     QPainter painter(this);
+
+    //抗图片锯齿
+    painter.setRenderHint(QPainter::SmoothPixmapTransform);
+
     if(isFlipped)
     {
         painter.setViewport(360, 0, -360, 780);
@@ -613,6 +665,10 @@ void MainWindow::drawAndroid()
 void MainWindow::drawCircle()
 {
     QPainter painter(this);
+
+    //消除锯齿感
+    painter.setRenderHint(QPainter::Antialiasing);
+
     QPainterPath path;
     path.addEllipse(QRect((360-72)/2,(780-72)/2,72,72));
     QBrush brush(QColor(170,170,170));
@@ -634,6 +690,9 @@ void MainWindow::drawShadowPause()
 void MainWindow::drawMm1()
 {
     QPainter painter(this);
+
+    painter.setRenderHint(QPainter::SmoothPixmapTransform);
+
     if(isFlipped)
     {
         painter.setViewport(360, 0, -360, 780);
@@ -919,6 +978,9 @@ void MainWindow::drawMm1()
 void MainWindow::drawMm2()
 {
     QPainter painter(this);
+
+    painter.setRenderHint(QPainter::SmoothPixmapTransform);
+
     if(isFlipped)
     {
         painter.setViewport(360, 0, -360, 780);
@@ -1230,7 +1292,10 @@ void MainWindow::drawScore()
         color.setRgb(220,68,55);
 
     QPainter painter(this);
+
+    //抗圆角锯齿
     painter.setRenderHint(QPainter::Antialiasing);
+
     QPainterPath path;
     //防止记分板装不下数字
     int x=getDigit(score);
@@ -1238,6 +1303,8 @@ void MainWindow::drawScore()
     path.addRoundedRect(QRectF((360-38-12*(x-1))/2, 13, 38+12*(x-1), 41), 3, 3);
     //填充内部，不包括边界
     painter.fillPath(path, color);
+
+    painter.setRenderHint(QPainter::TextAntialiasing);
 
     QFont font( "Microsoft YaHei", 13, 70);
     painter.setFont(font);
@@ -1273,6 +1340,10 @@ void MainWindow::initMm()
 void MainWindow::drawCountNumber()
 {
     QPainter painter(this);
+
+    //抗文本锯齿
+    painter.setRenderHint(QPainter::TextAntialiasing);
+
     if(isStartCount)
     {
         QFont font( "Microsoft JhengHei", 20, 70);

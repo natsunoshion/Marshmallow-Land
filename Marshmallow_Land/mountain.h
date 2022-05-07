@@ -10,6 +10,7 @@ class mountain : public QObject
 public:
     mountain();
     QPixmap moun,mounShadow;
+
     //水平位置
     double x;
     int width;
