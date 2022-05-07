@@ -550,8 +550,8 @@ void MainWindow::drawAndroid()
     //下降
     if(androidStatus==AndroidStatus::DOWN && gameStatus==RUNNING)
     {
-        androidY-=androidUpSpeed;
         androidUpSpeed-=0.375;
+        androidY-=androidUpSpeed;
         if(androidY>780-42)
             androidY=780-42;
     }
