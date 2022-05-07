@@ -36,5 +36,6 @@
         <file>images/cloud_off.png</file>
         <file>images/building.png</file>
         <file>images/buildingShadow.png</file>
+        <file>images/m_icon.png</file>
     </qresource>
 </RCC>

@@ -21,7 +21,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     //根据系统时间获取二次元音效
     QTime t=QTime::currentTime();
-    qDebug()<<t.hour();
     if((t.hour()<=3 && t.hour()>=0) || (t.hour()>=22 && t.hour()<=23))
     {
         QMediaPlaylist *voice = new QMediaPlaylist(this);  //添加音乐列表
@@ -86,12 +85,17 @@ void MainWindow::init()
     QIcon icon(iconPixmap);
     play->setIconSize(QSize(48, 48));
     play->setStyleSheet("QPushButton{color:white; background-color:transparent;}");
+
+    //窗口图标
+    this->setWindowIcon(QIcon(":/back/images/m_icon.png"));
     //设置图标
     play->setIcon(icon);
     play->setLayoutDirection(Qt::LeftToRight);
     play->setFlat(true);
+
     //移动到中心
     play->move((360-48)/2,(780-48)/2);
+
     //生成主题
     //时间
     mTimeOfDay=GlobalUtils::getRandomNum(4);
@@ -132,6 +136,7 @@ void MainWindow::init()
         isCactus=false;
         isMountain=false;
     }
+
     //初始化窗口大小
     this->setFixedSize(360,780);
     //初始化坐标以及相关数据
@@ -144,6 +149,7 @@ void MainWindow::init()
     isInitMm11=isInitMm12=isInitMm21=isInitMm22=true;
     //时间
     timer=new QTimer(this);
+
     //开始游戏
     startGame();
     //第一组棉花糖的随机数
@@ -572,6 +578,10 @@ void MainWindow::drawAndroid()
     if(imageAngle>180)
         imageAngle=180;
 
+    //不能出天花板
+    if(androidY<0)
+        androidY=0;
+
     painter.translate(androidX+21,androidY+21);
     painter.rotate(imageAngle);
     painter.drawPixmap(-21,-21,android);
@@ -580,9 +590,7 @@ void MainWindow::drawAndroid()
     //碰撞了就结束游戏
     if(isCrush())
         stopGame();
-    //不能出天花板
-    if(androidY<0)
-        androidY=0;
+
     //重置
     painter.setViewport(0, 0, 360, 780);
 }
@@ -1293,15 +1301,26 @@ bool MainWindow::isCrush()
     if(androidY==780-42)
         return true;
     //与第一对循环棉花糖碰撞
-    if(androidX+42>mmX1+10 && androidX<mmX1+78 && androidY+42>h1+20 && androidY<h1+70)
+    if(androidX+42>mmX1+10 && androidX<mmX1+78 && androidY+42>h1+15 && androidY<h1+70)
         return true;
-    if(androidX+42>mmX1+10 && androidX<mmX1+78 && androidY+42>h1+250+30 && androidY<h1+250+70)
-        return true;
+    //分情况
+    if(test12==0)
+        if(androidX+42>mmX1+10 && androidX<mmX1+78 && androidY+42>h1+250+104-70 && androidY<h1+250+104-15)
+            return true;
+    if(test12==1)
+        if(androidX+42>mmX1+10 && androidX<mmX1+78 && androidY+42>h1+250+98-70 && androidY<h1+250+98-15)
+            return true;
+
     //第二对
-    if(androidX+42>mmX2+10 && androidX<mmX2+78 && androidY+42>h2+20 && androidY<h2+70)
+    if(androidX+42>mmX2+10 && androidX<mmX2+78 && androidY+42>h2+15 && androidY<h2+70)
         return true;
-    if(androidX+42>mmX2+10 && androidX<mmX2+78 && androidY+42>h2+250+30 && androidY<h2+250+70)
-        return true;
+    //分情况
+    if(test22==0)
+        if(androidX+42>mmX2+10 && androidX<mmX2+78 && androidY+42>h2+250+104-70 && androidY<h2+250+104-15)
+            return true;
+    if(test22==1)
+        if(androidX+42>mmX2+10 && androidX<mmX2+78 && androidY+42>h2+250+98-70 && androidY<h2+250+98-15)
+            return true;
     //第一对的杆子相碰
     if(androidX+42>mmX1+(88-6)/2 && androidX<mmX1+(88+6)/2 && androidY<h1)
         return true;
