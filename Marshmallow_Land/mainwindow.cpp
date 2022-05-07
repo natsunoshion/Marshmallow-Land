@@ -2,6 +2,7 @@
 #include <QCoreApplication>
 #include <QPainter>
 #include <QDebug>
+
 //构造函数就写一个初始化函数
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -70,11 +71,13 @@ MainWindow::MainWindow(QWidget *parent)
     //初始化
     init();
 }
+
 //析构
 MainWindow::~MainWindow()
 {
     delete play;
 }
+
 //初始化函数内容
 void MainWindow::init()
 {
@@ -233,6 +236,7 @@ void MainWindow::init()
     //开局先跳一下
     initSpeed();
 }
+
 //山
 void MainWindow::drawMountain()
 {
@@ -267,6 +271,7 @@ void MainWindow::drawMountain()
     }
     painter.setViewport(0, 0, 360, 780);
 }
+
 //仙人掌
 void MainWindow::drawCactus()
 {
@@ -301,6 +306,7 @@ void MainWindow::drawCactus()
     }
     painter.setViewport(0, 0, 360, 780);
 }
+
 //云
 void MainWindow::drawCloud()
 {
@@ -336,6 +342,7 @@ void MainWindow::drawCloud()
     }
     painter.setViewport(0, 0, 360, 780);
 }
+
 //星星
 void MainWindow::drawStar()
 {
@@ -352,6 +359,7 @@ void MainWindow::drawStar()
     }
     painter.setViewport(0, 0, 360, 780);
 }
+
 //太阳
 void MainWindow::drawSun()
 {
@@ -371,6 +379,7 @@ void MainWindow::drawSun()
     //重置画面
     painter.setViewport(0, 0, 360, 780);
 }
+
 //月亮
 void MainWindow::drawMoon()
 {
@@ -389,6 +398,7 @@ void MainWindow::drawMoon()
     //重置画面
     painter.setViewport(0, 0, 360, 780);
 }
+
 //建筑物
 void MainWindow::drawBuilding()
 {
@@ -420,6 +430,7 @@ void MainWindow::drawBuilding()
     }
     painter.setViewport(0, 0, 360, 780);
 }
+
 //鼠标点击一次刷新初速度
 void MainWindow::mousePressEvent(QMouseEvent *)
 {
@@ -427,12 +438,14 @@ void MainWindow::mousePressEvent(QMouseEvent *)
     isPressed=true;
     update();
 }
+
 //鼠标松开
 void MainWindow::mouseReleaseEvent(QMouseEvent *)
 {
     isPressed=false;
     update();
 }
+
 //绘制事件
 void MainWindow::paintEvent(QPaintEvent *)
 {
@@ -471,6 +484,7 @@ void MainWindow::paintEvent(QPaintEvent *)
     //屏幕正中间的分数图标
     drawScore();
 }
+
 //直接暴力用draw函数画渐变背景
 void MainWindow::drawBack()
 {
@@ -516,8 +530,8 @@ void MainWindow::drawBack()
         //直接画矩形填充渐变背景
         painter.drawRect(-1,-1,361,781);
     }
-
 }
+
 //绘制事件中的绘制安卓小人
 void MainWindow::drawAndroid()
 {
@@ -594,6 +608,7 @@ void MainWindow::drawAndroid()
     //重置
     painter.setViewport(0, 0, 360, 780);
 }
+
 //绘制开始界面的圆形
 void MainWindow::drawCircle()
 {
@@ -603,6 +618,7 @@ void MainWindow::drawCircle()
     QBrush brush(QColor(170,170,170));
     painter.fillPath(path,brush);
 }
+
 //绘制未开始游戏时背景的阴影
 void MainWindow::drawShadowPause()
 {
@@ -613,6 +629,7 @@ void MainWindow::drawShadowPause()
     //重置painter
     painter.setOpacity(1.0);
 }
+
 //第一个循环棉花糖
 void MainWindow::drawMm1()
 {
@@ -897,6 +914,7 @@ void MainWindow::drawMm1()
     }
     painter.setViewport(0, 0, 360, 780);
 }
+
 //第二个棉花糖
 void MainWindow::drawMm2()
 {
@@ -1176,6 +1194,7 @@ void MainWindow::drawMm2()
     }
     painter.setViewport(0, 0, 360, 780);
 }
+
 //开始游戏
 void MainWindow::startGame()
 {
@@ -1184,6 +1203,7 @@ void MainWindow::startGame()
     androidUpSpeed=0;
     timer->start(16);
 }
+
 //终止游戏
 void MainWindow::stopGame()
 {
@@ -1191,6 +1211,7 @@ void MainWindow::stopGame()
     timer->stop();
     gameStatus=STOPING;
 }
+
 //记分板
 void MainWindow::drawScore()
 {
@@ -1227,11 +1248,13 @@ void MainWindow::drawScore()
         painter.setPen(Qt::white);
     painter.drawText(QRectF((360-38-12*(x-1))/2, 13, 38+12*(x-1), 41),Qt::AlignCenter,QString::number(score));
 }
+
 //保持持续的paint事件
 void MainWindow::loopPaint()
 {
     update();
 }
+
 //开始绘画安卓
 void MainWindow::initAndroid()
 {
@@ -1239,11 +1262,13 @@ void MainWindow::initAndroid()
     //开始游戏之后山云仙人掌就不重置了
     isReset=false;
 }
+
 //开始绘画棉花糖
 void MainWindow::initMm()
 {
     startMm=true;
 }
+
 //绘画倒计时
 void MainWindow::drawCountNumber()
 {
@@ -1257,12 +1282,14 @@ void MainWindow::drawCountNumber()
         painter.drawText(QRectF((360-72)/2,(780-72)/2,72,72),Qt::AlignCenter,QString::number(countNumber));
     }
 }
+
 //隐藏开始键
 void MainWindow::hideButton()
 {
     play->setVisible(false);
     play->setEnabled(false);
 }
+
 //开始倒计时
 void MainWindow::startCount()
 {
@@ -1289,11 +1316,13 @@ void MainWindow::startCount()
     });
     isFirstInit=false;
 }
+
 //向上的初速度
 void MainWindow::initSpeed()
  {
      androidUpSpeed=6.3;
  }
+
 //自己写碰撞检测
 bool MainWindow::isCrush()
 {
