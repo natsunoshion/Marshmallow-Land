@@ -40,7 +40,7 @@ MainWindow::MainWindow(QWidget *parent)
         voicePlayer->setPlaylist(voice);  //设置音乐列表
         voicePlayer->play();
     }
-    if(t.hour()<=14 && t.hour()>=10)
+    if(t.hour()<=13 && t.hour()>=10)
     {
         QMediaPlaylist *voice = new QMediaPlaylist(this);  //添加音乐列表
         voice->addMedia(QUrl("qrc:/data/music/come.mp3"));  //添加音乐列表
