@@ -938,7 +938,7 @@ void MainWindow::drawMm1()
         }
         if(mouthType12==2)
         {
-            mouth12.load(":/back/images/mm_mouth3.PNG");
+            mouth12.load(":/back/images/mm_mouth3.png");
             mouth12=mouth12.scaled(88,88);
             //参数
             if(test12==0)
@@ -948,7 +948,7 @@ void MainWindow::drawMm1()
         }
         if(mouthType12==3)
         {
-            mouth12.load(":/back/images/mm_mouth4.PNG");
+            mouth12.load(":/back/images/mm_mouth4.png");
             mouth12=mouth12.scaled(88,88);
             //参数
             if(test12==0)
@@ -1228,7 +1228,7 @@ void MainWindow::drawMm2()
         }
         if(mouthType22==2)
         {
-            mouth22.load(":/back/images/mm_mouth3.PNG");
+            mouth22.load(":/back/images/mm_mouth3.png");
             mouth22=mouth22.scaled(88,88);
             //参数
             if(test22==0)
@@ -1238,7 +1238,7 @@ void MainWindow::drawMm2()
         }
         if(mouthType22==3)
         {
-            mouth22.load(":/back/images/mm_mouth4.PNG");
+            mouth22.load(":/back/images/mm_mouth4.png");
             mouth22=mouth22.scaled(88,88);
             //参数
             if(test22==0)
